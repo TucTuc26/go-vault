@@ -10,6 +10,7 @@ import type { RoleChange } from '../engine/reevaluate';
 import { buildLeagues, DEFAULT_VERDICT_SETTINGS, type VerdictEnv, type VerdictSettings } from '../engine/verdict';
 import { buildSpeciesIndex, type PipelineDeps } from '../providers';
 import type { IntakeEnv } from '../app/intake';
+import { leagueTitles } from './i18n';
 import { applyRoleChanges, reevaluateAsync } from '../app/reevaluate-run';
 import type { ProviderId } from '../providers';
 
@@ -165,7 +166,7 @@ export function AppProvider({ children, db = defaultDb, fetcher }: { children: R
   const value = useMemo<AppCtx | null>(() => {
     if (state.status !== 'ready' || !state.bundle || !state.rankings || !settingsLoaded) return null;
     const { bundle, rankings } = state;
-    const env: VerdictEnv = { game: bundle.game, speciesById: bundle.speciesById, rankings, movesById: bundle.movesById, leagues: buildLeagues(bundle.formats, bundle.cups) };
+    const env: VerdictEnv = { game: bundle.game, speciesById: bundle.speciesById, rankings, movesById: bundle.movesById, leagues: buildLeagues(bundle.formats, bundle.cups, leagueTitles(bundle.formats)) };
     const deps: PipelineDeps = { ctx: env, names: bundle.names, speciesIndex: buildSpeciesIndex(bundle.species, bundle.names), moves: bundle.moves };
     const verdictSettings: VerdictSettings = { ...settings.verdict, playerLevel: settings.playerLevel };
     const nameOf = (id: string) => { const s = bundle.speciesById.get(id); return s ? displayName(s, bundle.names) : id; };
@@ -194,7 +195,7 @@ export function AppProvider({ children, db = defaultDb, fetcher }: { children: R
     if (settings.dataVersionSeen === null || pokemon.length === 0) { updateSettings({ dataVersionSeen: currentVersion }); return; }
     setReevaluating(true);
     const b = state.bundle;
-    const env: VerdictEnv = { game: b.game, speciesById: b.speciesById, rankings: state.rankings!, movesById: b.movesById, leagues: buildLeagues(b.formats, b.cups) };
+    const env: VerdictEnv = { game: b.game, speciesById: b.speciesById, rankings: state.rankings!, movesById: b.movesById, leagues: buildLeagues(b.formats, b.cups, leagueTitles(b.formats)) };
     const nameOf = (id: string) => { const s = b.speciesById.get(id); return s ? displayName(s, b.names) : id; };
     reevaluateAsync(env, pokemon, { ...settings.verdict, playerLevel: settings.playerLevel }, nameOf)
       .then((ch) => {

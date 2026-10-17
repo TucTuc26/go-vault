@@ -13,7 +13,7 @@ export function RoleBadges({ roles, max = 6 }: { roles: Role[]; max?: number }) 
       {shown.map((r, i) => {
         const dub = 'uncertain' in r && r.uncertain ? '?' : '';
         switch (r.kind) {
-          case 'pvp': return <Badge key={i} tone="info" title={`${leagueTitleEs(r.leagueKey, bundle.formats)}: IV rank ${r.ivRank}, ${r.percentOfBest.toFixed(1)} %`}>{leagueTitleEs(r.leagueKey, bundle.formats).replace('Liga ', '')} #{r.ivRank}{dub}</Badge>;
+          case 'pvp': return <Badge key={i} tone="info" title={`${leagueTitleEs(r.leagueKey, bundle.formats)}: IV rank ${r.ivRank}, ${r.percentOfBest.toFixed(1)} %`}>{leagueTitleEs(r.leagueKey, bundle.formats).replace('Liga ', '')}{/_(mega|primal)/.test(r.stageId) ? ` (${r.stageId.replace(/^.*?_(mega|primal)/, '$1').replace(/_/g, ' ')})` : ''} #{r.ivRank}{dub}</Badge>;
           case 'gym': return <Badge key={i} tone="ok" title="Resistencia DEF×PS">Gimnasio #{r.rank}{dub}</Badge>;
           case 'raid': return <Badge key={i} tone="warn" title="Estimación propia">Ataque {TYPE_ES[r.type] ?? r.type} #{r.rank} (est.){dub}</Badge>;
           case 'showcase': return <Badge key={i} tone="shadow">{showcaseLabel(r.reason)}</Badge>;

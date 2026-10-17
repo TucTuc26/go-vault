@@ -2,6 +2,7 @@
 import { loadBundle } from '../data/loader';
 import { buildLeagues, DEFAULT_VERDICT_SETTINGS, type VerdictEnv, type VerdictSettings } from '../engine/verdict';
 import { reevaluateRecords, type RoleChange } from '../engine/reevaluate';
+import { leagueTitles } from '../ui/i18n';
 import { displayName } from '../data/names';
 import type { SavedPokemon } from '../db/types';
 import type { RankingFile } from '../data/schemas';
@@ -17,7 +18,7 @@ self.onmessage = async (ev: MessageEvent<ReevalRequest>) => {
     for (const r of bundle.manifest.rankings) rankings[r.key] = await bundle.loadRanking(r.key);
     const env: VerdictEnv = {
       game: bundle.game, speciesById: bundle.speciesById, rankings, movesById: bundle.movesById,
-      leagues: buildLeagues(bundle.formats, bundle.cups),
+      leagues: buildLeagues(bundle.formats, bundle.cups, leagueTitles(bundle.formats)),
     };
     const settings = { ...DEFAULT_VERDICT_SETTINGS, ...(ev.data.settings ?? {}) } as VerdictSettings;
     const nameOf = (id: string) => { const s = bundle.speciesById.get(id); return s ? displayName(s, bundle.names) : id; };

@@ -56,3 +56,7 @@ export const BAR_LABEL = ['Vacía–1/3 (0–5)', '1/3–2/3 (6–10)', 'Casi ll
 export const TIER_LABEL = ['', 'Baja (0–7)', 'Buena (8–12)', 'Muy buena (13–14)', 'Máxima (15)'];
 
 export const fmt = (n: number | null | undefined, d = 0) => (n === null || n === undefined ? '—' : n.toLocaleString('es', { maximumFractionDigits: d }));
+
+/** Títulos en español de todos los rankings (para guardarlos en los roles). */
+export const leagueTitles = (formats: Format[]): Record<string, string> =>
+  Object.fromEntries(formats.filter((f) => f.rankingKey).map((f) => [f.rankingKey!, leagueTitleEs(f.rankingKey!, formats)]));
