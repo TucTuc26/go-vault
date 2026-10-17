@@ -11,8 +11,10 @@
 
 - **Fase 5 — Interfaz** ✓ (Agregar/Colección/Detalle+calculadora/Ajustes; Top 100 y Equipos son marcadores hasta las Fases 6–7; test de flujo completo; Lighthouse accesibilidad/PWA 100).
 
+- **Fase 6 — Top 100** ✓ (todas las ligas/copas, filtros, lo tengo/me falta, ficha con matchups y counters; test de UI).
+
 ## Pendiente
-- Fases 6 a 8 (ver CLAUDE.md).
+- Fases 7 a 8 (ver CLAUDE.md).
 
 ## Dudas / verificar
 - Ver ⚠ en DECISIONS.md.
