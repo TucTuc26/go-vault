@@ -1,7 +1,7 @@
-import { addPokemon, addReview, undoHandle, type GoVaultDB } from '../db/db';
+import { addPokemon, addReview, undoHandle, updatePokemon, type GoVaultDB } from '../db/db';
 import { buildRecord } from '../db/record';
 import type { SavedPokemon } from '../db/types';
-import { evaluateVerdict, type EvalInput, type Verdict, type VerdictEnv, type VerdictSettings } from '../engine/verdict';
+import { computeRoles, evaluateVerdict, type EvalInput, type Verdict, type VerdictEnv, type VerdictSettings } from '../engine/verdict';
 import type { IVs } from '../engine/types';
 import { processScan, type PipelineDeps, type PipelineOptions, type ProcessedEntry } from '../providers/pipeline';
 import type { ScanResult } from '../providers/schema';
@@ -61,4 +61,23 @@ export async function forceSave(env: IntakeEnv, entry: ProcessedEntry, existingR
   const species = env.deps.ctx.speciesById.get(entry.draft.speciesId);
   if (!species) throw new Error('Falta la especie');
   return addPokemon(env.db, buildRecord({ draft: entry.draft, species, roles: [...existingRoles, { kind: 'manual' }], dataVersion: env.dataVersion }));
+}
+
+/**
+ * Edición de un registro existente: reinterpreta el formulario, recalcula roles (conservando los manuales)
+ * y actualiza el mismo registro (id y fecha de creación se mantienen).
+ */
+export async function editRecord(env: IntakeEnv, id: number, scan: ScanResult): Promise<{ ok: true; entry: ProcessedEntry } | { ok: false; reasons: string[] }> {
+  const cur = await env.db.pokemon.get(id);
+  if (!cur) return { ok: false, reasons: ['El registro ya no existe'] };
+  const entry = processScan(env.deps, scan, { playerLevel: env.settings.playerLevel, ...env.pipelineOptions });
+  if (!entry.draft.speciesId || entry.doubtful) return { ok: false, reasons: entry.reasons.length ? entry.reasons : ['No se pudo interpretar'] };
+  const species = env.deps.ctx.speciesById.get(entry.draft.speciesId)!;
+  const others = (await env.db.pokemon.toArray()).filter((p) => p.id !== id);
+  const input = evalInputOf(entry);
+  const { sure } = computeRoles(env.verdictEnv, input, input.ivSets, env.settings, others);
+  const manual = cur.roles.filter((r) => r.kind === 'manual');
+  const rec = buildRecord({ draft: entry.draft, species, roles: [...sure, ...manual], dataVersion: env.dataVersion, nowIso: cur.createdAt, notes: cur.notes });
+  await updatePokemon(env.db, id, { ...rec, id, createdAt: cur.createdAt });
+  return { ok: true, entry };
 }

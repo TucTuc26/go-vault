@@ -51,6 +51,7 @@ export default defineConfig({
   build: { target: 'es2022', chunkSizeWarningLimit: 1500 },
   test: {
     environment: 'node',
+    setupFiles: ['tests/setup-dom.ts'],
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/*.test.ts'],
     testTimeout: 30000,
   },

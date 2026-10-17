@@ -9,8 +9,10 @@
 
 - **Fase 4 — Veredicto y guardado** ✓ (PvP/gimnasio/raid/exhibición, redundancia, duplicados, Dexie solo texto, deshacer, reevaluación en Web Worker; 83 tests en total).
 
+- **Fase 5 — Interfaz** ✓ (Agregar/Colección/Detalle+calculadora/Ajustes; Top 100 y Equipos son marcadores hasta las Fases 6–7; test de flujo completo; Lighthouse accesibilidad/PWA 100).
+
 ## Pendiente
-- Fases 5 a 8 (ver CLAUDE.md).
+- Fases 6 a 8 (ver CLAUDE.md).
 
 ## Dudas / verificar
 - Ver ⚠ en DECISIONS.md.
