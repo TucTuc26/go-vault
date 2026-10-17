@@ -42,7 +42,7 @@ function getPool(size: number): Worker[] {
  * Reparte las filas de la matriz entre varios Web Workers (los combates son independientes). El grupo de workers se
  * conserva ~1 min para que las siguientes consultas no paguen el arranque; si fallan, se calcula en este hilo.
  */
-export function createWorkerComputer(size: number, fallback: RowComputer): RowComputer {
+export function createWorkerComputer(size: number, fallback: RowComputer, version?: string): RowComputer {
   return (jobs, opponents, onProgress) =>
     new Promise((resolve, reject) => {
       const workers = getPool(Math.max(1, Math.min(size, jobs.length)));
@@ -70,7 +70,7 @@ export function createWorkerComputer(size: number, fallback: RowComputer): RowCo
           else feed(w);
         };
         w.onerror = fail;
-        w.postMessage({ type: 'init', opponents } satisfies RowsRequest);
+        w.postMessage({ type: 'init', opponents, version } satisfies RowsRequest);
         feed(w);
       }
     });
@@ -81,7 +81,7 @@ export function runTeamAnalysis(p: RunTeamsParams): Promise<AnalyzeResult> {
   const local = localComputer(p.env);
   const cores = typeof navigator !== 'undefined' ? navigator.hardwareConcurrency || 2 : 1;
   const size = p.workers ?? Math.max(1, Math.min(4, cores - 1));
-  const computer = typeof Worker !== 'undefined' ? createWorkerComputer(size, local) : local;
+  const computer = typeof Worker !== 'undefined' ? createWorkerComputer(size, local, p.dataVersion) : local;
   return analyzeTeams({
     env: p.env, league: { key: p.leagueKey, cpCap: p.cpCap, levelCap: p.levelCap }, collection: p.collection, mode: p.mode, topN: p.topN,
     playerLevel: p.playerLevel, dataVersion: p.dataVersion, nameOf: p.nameOf, cache: dbRowCache(p.db), adviceLimit: p.adviceLimit,
@@ -93,9 +93,9 @@ export function runTeamAnalysis(p: RunTeamsParams): Promise<AnalyzeResult> {
 export const disposeTeamWorkers = releasePool;
 
 /** Arranca los workers por adelantado (al abrir la pestaña Equipos) para que el primer cálculo no pague el arranque. */
-export function prewarmTeamWorkers(workers?: number): void {
+export function prewarmTeamWorkers(version?: string, workers?: number): void {
   if (typeof Worker === 'undefined') return;
   const cores = typeof navigator !== 'undefined' ? navigator.hardwareConcurrency || 2 : 1;
   const size = workers ?? Math.max(1, Math.min(4, cores - 1));
-  for (const w of getPool(size)) w.postMessage({ type: 'init', opponents: [] } satisfies RowsRequest);
+  for (const w of getPool(size)) w.postMessage({ type: 'init', opponents: [], version } satisfies RowsRequest);
 }

@@ -4,6 +4,7 @@ import CollectionPage from './CollectionPage';
 import SettingsPage from './SettingsPage';
 import { AppProvider, useApp } from './state';
 import { Empty } from './components';
+import { Banners } from './Banners';
 
 const Top100Page = lazy(() => import('./Top100Page'));
 const TeamsPage = lazy(() => import('./TeamsPage'));
@@ -36,6 +37,7 @@ export function Shell() {
   return (
     <div className="flex min-h-full flex-col">
       <Header />
+      <Banners />
       <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-28 pt-2" id="main">
         {tab === 'add' && <AddPage />}
         {tab === 'collection' && <CollectionPage />}

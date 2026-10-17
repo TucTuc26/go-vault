@@ -52,3 +52,23 @@ export async function daysSinceBackup(db: GoVaultDB, now = Date.now()): Promise<
   const last = await getKV<string | null>(db, 'lastBackupAt', null);
   return last ? Math.floor((now - Date.parse(last)) / 864e5) : null;
 }
+
+/** Descarga el respaldo como archivo JSON y registra la fecha. Devuelve la fecha del respaldo. */
+export async function downloadBackup(db: GoVaultDB): Promise<string> {
+  const data = await exportBackup(db);
+  const blob = new Blob([JSON.stringify(data, null, 1)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `go-vault-respaldo-${data.exportedAt.slice(0, 10)}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  return data.exportedAt;
+}
+
+/** Días sin respaldo; si nunca se hizo, días desde el registro más antiguo (null si la colección está vacía). */
+export async function backupAgeDays(db: GoVaultDB, now = Date.now()): Promise<number | null> {
+  const last = await daysSinceBackup(db, now);
+  if (last !== null) return last;
+  const oldest = (await db.pokemon.orderBy("createdAt").first())?.createdAt;
+  return oldest ? Math.floor((now - Date.parse(oldest)) / 864e5) : null;
+}

@@ -8,3 +8,6 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 );
+
+// Service worker (solo producción): funciona sin conexión y avisa de versiones nuevas
+if (import.meta.env.PROD) void import('./app/pwa').then((m) => m.initPwa());

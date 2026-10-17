@@ -30,9 +30,16 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         runtimeCaching: [
           {
+            // El manifest se pide primero a la red (detecta versiones nuevas) y, sin conexión, usa la última copia
+            urlPattern: ({ url }) => url.pathname.endsWith('/data/manifest.json'),
+            handler: 'NetworkFirst',
+            options: { cacheName: 'govault-manifest', networkTimeoutSeconds: 4, expiration: { maxEntries: 5 } },
+          },
+          {
+            // Datos versionados (?v=<dataVersion>): stale-while-revalidate, disponibles sin conexión
             urlPattern: ({ url }) => url.pathname.includes('/data/') && url.pathname.endsWith('.json'),
             handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'govault-data', expiration: { maxEntries: 200 } },
+            options: { cacheName: 'govault-data', expiration: { maxEntries: 120, purgeOnQuotaError: true } },
           },
           {
             urlPattern: ({ url }) => url.hostname === 'raw.githubusercontent.com',

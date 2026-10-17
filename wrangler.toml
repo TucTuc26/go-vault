@@ -1,0 +1,5 @@
+# Cloudflare Pages (despliegue con `wrangler pages deploy dist`). Las Functions de /functions solo se activan
+# si defines ANTHROPIC_API_KEY y APP_PASSCODE; sin ellas la app funciona completa y /api/scan responde 503.
+name = "go-vault"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"

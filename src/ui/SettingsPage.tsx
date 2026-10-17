@@ -1,9 +1,5 @@
 import { useMemo, useState } from 'react';
-import { exportBackup, importBackup, type ImportReport } from '../app/backup';
-import { reevaluateAsync } from '../app/reevaluate-run';
-import { loadManifest } from '../data/loader';
-import { updatePokemon } from '../db/db';
-import type { RoleChange } from '../engine/reevaluate';
+import { downloadBackup, importBackup, type ImportReport } from '../app/backup';
 import { SHOWCASE_LABEL } from '../engine/verdict';
 import { PROVIDER_ORDER } from '../providers';
 import { Btn, Card, Field, NumInput, Select, TextInput, Toggle } from './components';
@@ -15,11 +11,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function SettingsPage() {
-  const { settings, updateSettings, bundle, pokemon, db, env, verdictSettings, nameOf, reloadData } = useApp();
+  const { settings, updateSettings, bundle, db, nameOf, checkUpdate, applyUpdate, pendingChanges, applyChanges, dismissChanges, reevaluating } = useApp();
   const v = settings.verdict;
   const setVerdict = (fn: (x: AppSettings['verdict']) => AppSettings['verdict']) => updateSettings((s) => ({ ...s, verdict: fn(s.verdict) }));
   const [msg, setMsg] = useState<string | null>(null);
-  const [changes, setChanges] = useState<RoleChange[] | null>(null);
   const [report, setReport] = useState<ImportReport | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -32,42 +27,19 @@ export default function SettingsPage() {
   const inv = settings.inventory;
   const setInv = (patch: Partial<typeof inv>) => updateSettings((s) => ({ ...s, inventory: { ...s.inventory, ...patch } }));
 
-  const checkUpdate = async () => {
+  const lookForUpdate = async () => {
     setBusy(true); setMsg(null);
     try {
-      const res = await fetch(`${import.meta.env.BASE_URL}data/manifest.json`, { cache: 'no-store' });
-      const remote = await res.json();
-      const m = await loadManifest(async () => remote);
-      if (m.dataVersion === bundle.manifest.dataVersion) { setMsg('Ya tienes los datos más recientes.'); return; }
-      await reloadData();
-      setMsg('Hay datos nuevos: se cargaron. Reevaluando tu colección…');
-      const ch = await reevaluateAsync(env, pokemon, verdictSettings, nameOf);
-      setChanges(ch);
-      setMsg(ch.length ? `Datos actualizados. ${ch.length} Pokémon cambian de rol.` : 'Datos actualizados. Tu colección no cambia de rol.');
-    } catch (e) {
-      setMsg(`No pude buscar actualizaciones: ${(e as Error).message}`);
-    } finally { setBusy(false); }
-  };
-
-  const applyChanges = async () => {
-    for (const c of changes ?? []) {
-      const roleKeys = c.newRoles.map((r, i) => `${r.kind}:${i}`);
-      void roleKeys;
-      await updatePokemon(db, c.id, { roles: c.newRoles, roleKeys: c.newRoles.map((r) => (r.kind === 'pvp' ? `pvp:${r.leagueKey}:${r.stageId}` : r.kind === 'gym' ? `gym:${r.stageId}` : r.kind === 'raid' ? `raid:${r.type}:${r.stageId}` : r.kind === 'showcase' ? `showcase:${r.reason}:${c.speciesId}` : 'manual')), dataVersion: bundle.manifest.dataVersion });
-    }
-    setChanges(null); setMsg('Roles actualizados.');
+      if (await checkUpdate()) { await applyUpdate(); setMsg("Hay datos nuevos: se descargaron. Se reevalúa tu colección (no se borra nada)."); }
+      else setMsg("Ya tienes los datos más recientes.");
+    } catch (e) { setMsg(`No pude buscar actualizaciones: ${(e as Error).message}`); }
+    finally { setBusy(false); }
   };
 
   const doExport = async () => {
-    const data = await exportBackup(db);
-    const blob = new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `go-vault-respaldo-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-    updateSettings({ lastBackupAt: data.exportedAt });
-    setMsg('Respaldo descargado.');
+    const at = await downloadBackup(db);
+    updateSettings({ lastBackupAt: at });
+    setMsg("Respaldo descargado.");
   };
 
   return (
@@ -133,13 +105,13 @@ export default function SettingsPage() {
         <p className="text-sm" data-testid="settings-data-date">Datos al: {new Date(bundle.manifest.builtAt).toLocaleString('es')} · versión {bundle.manifest.dataVersion.slice(0, 8)}</p>
         <ul className="text-xs text-[var(--muted)]">{bundle.manifest.sources.map((s) => <li key={s.name}>{s.name} ({s.license}) · {s.version.slice(0, 24)}</li>)}</ul>
         {bundle.manifest.warnings.map((w) => <p key={w} className="text-xs text-[var(--warn)]">⚠ {w}</p>)}
-        <Btn onClick={checkUpdate} disabled={busy}>Buscar actualización</Btn>
-        {changes && changes.length > 0 && (
+        <Btn onClick={lookForUpdate} disabled={busy || reevaluating}>Buscar actualización</Btn>
+        {pendingChanges && pendingChanges.length > 0 && (
           <div className="flex flex-col gap-2" aria-label="Cambios de rol">
-            {changes.map((c) => (
-              <p key={c.id} className="text-sm"><strong>{c.name}</strong>: {c.gained.map((g) => `ahora sirve → ${g}`).join('; ')}{c.gained.length && c.lost.length ? '; ' : ''}{c.lost.map((l) => `ya no: ${l}`).join('; ')}</p>
+            {pendingChanges.map((c) => (
+              <p key={c.id} className="text-sm"><strong>{c.name}</strong>: {c.gained.map((g) => `ahora sirve → ${g}`).join("; ")}{c.gained.length && c.lost.length ? "; " : ""}{c.lost.map((l) => `ya no: ${l}`).join("; ")}</p>
             ))}
-            <Btn variant="primary" onClick={applyChanges}>Aplicar cambios (no se borra nada)</Btn>
+            <div className="flex gap-2"><Btn variant="primary" onClick={() => void applyChanges()}>Aplicar cambios (no se borra nada)</Btn><Btn onClick={dismissChanges}>Ahora no</Btn></div>
           </div>
         )}
       </Section>

@@ -17,3 +17,13 @@ export async function reevaluateAsync(env: VerdictEnv, records: SavedPokemon[], 
     w.postMessage({ records, settings });
   });
 }
+
+import { updatePokemon, type GoVaultDB } from '../db/db';
+import { roleKey } from '../db/types';
+
+/** Aplica los cambios de rol calculados por la reevaluación (nunca borra registros; conserva los roles manuales). */
+export async function applyRoleChanges(db: GoVaultDB, changes: RoleChange[], dataVersion: string): Promise<void> {
+  for (const c of changes) {
+    await updatePokemon(db, c.id, { roles: c.newRoles, roleKeys: c.newRoles.map((r) => roleKey(r, c.speciesId)), dataVersion });
+  }
+}

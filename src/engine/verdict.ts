@@ -114,7 +114,7 @@ export function rolesForIVs(env: VerdictEnv, input: EvalInput, ivs: IVs, setting
     const evals = evaluateForLeague(env, input.speciesId, ivs, lg, { playerLevel: settings.playerLevel, bestBuddy: input.flags.bestBuddy, shadow });
     for (const e of evals) {
       if (!e.eligible || e.rankingPos === null || e.rankingPos > settings.pvp.topN) continue;
-      const isMaster = lg.cpCap >= 10000;
+      const isMaster = lg.cpCap >= (env.game.leagues.find((l) => l.id === 'master')?.cpCap ?? Infinity);
       const ivOk = isMaster
         ? Math.min(ivs.atk, ivs.def, ivs.hp) >= settings.pvp.masterMinIv
         : e.ivRank! <= settings.pvp.maxIvRank || e.percentOfBest! >= settings.pvp.minPercentOfBest;

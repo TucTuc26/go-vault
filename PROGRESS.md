@@ -15,8 +15,11 @@
 
 - **Fase 7 — Equipos** ✓ (port del simulador de PvPoke verificado contra el original en 210 combates; equipos de 3 por liga/copa con matriz en caché, alternativas, ¿qué me falta?, costos; incursiones y gimnasios; Dynamax no implementado: ver DECISIONS).
 
+- **Fase 8 — PWA, actualización, respaldo y despliegue** ✓ en el código (datos versionados + caché offline, aviso y reevaluación al cambiar la versión, respaldo con recordatorio, aviso iOS, workflows CI/deploy/update-data, README completo, auditoría automatizada). Falta lo que solo puede hacer el usuario (ver abajo).
+
 ## Pendiente
-- Fase 8 (PWA, actualización, respaldo, despliegue).
+- Despliegue real, instalación en iPhone y prueba de actualización en producción (requieren tus cuentas/dispositivo).
+- Calibrar el OCR con capturas reales.
 
 ## Dudas / verificar
 - Rendimiento en iPhone real (meta <5 s con 30+ Pokémon): en escritorio 1.1 s para 38 candidatos.
@@ -25,5 +28,10 @@
 - **OCR sin capturas reales**: las zonas de `src/providers/ocr/layout.ts` son una estimación; hay que probar con capturas reales del iPhone y ajustar.
 
 ## Necesito de ti
-- Cliente OAuth de Google Drive (opcional): pasos en README.md, sección "Google Drive".
-- (Más pasos en las Fases 5–8: cuentas de GitHub/Cloudflare, despliegue.)
+1. **Subir a GitHub**: crea un repositorio vacío `go-vault` y ejecuta `git remote add origin https://github.com/TU_USUARIO/go-vault.git` y `git push -u origin main`.
+2. **Cloudflare** (gratis): crea un token de API (plantilla «Edit Cloudflare Workers» / permiso *Cloudflare Pages: Edit*) y copia tu *Account ID*. En GitHub → Settings → Secrets and variables → Actions crea `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID`. En Cloudflare → Workers & Pages → Create → Pages → Upload assets crea el proyecto `go-vault`. Luego Actions → CI → Run workflow. Resultado: `https://go-vault.pages.dev`.
+3. **iPhone**: abre la URL en Safari → Compartir → Añadir a pantalla de inicio; ábrela una vez con internet; confirma que funciona en modo avión.
+4. **Google Drive (opcional)**: crea el cliente OAuth (README, sección «Google Drive») y guarda `VITE_GOOGLE_CLIENT_ID` como secreto de GitHub; vuelve a desplegar.
+5. **API de Claude (opcional, de pago)**: añade `ANTHROPIC_API_KEY` (secreto) y `APP_PASSCODE` en Cloudflare → Settings → Variables and secrets; actívala en Ajustes.
+6. **Probar el OCR** con 2–3 capturas reales de tu iPhone (pantalla del Pokémon y de valoración) y avisar si falla la lectura: las zonas de `src/providers/ocr/layout.ts` están calibradas «a ojo».
+7. **Probar la actualización de datos**: Actions → «Actualizar datos» → Run workflow; en la app, Ajustes → Buscar actualización.

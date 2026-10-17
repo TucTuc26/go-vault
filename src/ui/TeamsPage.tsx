@@ -88,7 +88,7 @@ function PvpTeams() {
   const [err, setErr] = useState<string | null>(null);
 
   // arranca los workers de simulación al abrir la pestaña
-  useEffect(() => { if (pokemon.length >= 3) prewarmTeamWorkers(); }, [pokemon.length >= 3]);
+  useEffect(() => { if (pokemon.length >= 3) prewarmTeamWorkers(bundle.manifest.dataVersion); }, [pokemon.length >= 3]);
 
   const go = async () => {
     setErr(null); setRes(null);

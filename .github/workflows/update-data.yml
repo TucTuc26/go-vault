@@ -15,6 +15,8 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,6 +31,7 @@ jobs:
       - name: Verificar datos (tests)
         run: npm test
       - name: Commit si hay cambios
+        id: commit
         run: |
           if [ -n "$(git status --porcelain public/data)" ]; then
             git config user.name "go-vault-bot"
@@ -36,6 +39,17 @@ jobs:
             git add public/data
             git commit -m "chore(data): actualizar datos del juego y rankings"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "Sin cambios en los datos."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+  # Los push hechos con GITHUB_TOKEN no disparan otros workflows: se despliega aquí mismo.
+  deploy:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: main
+    secrets: inherit
