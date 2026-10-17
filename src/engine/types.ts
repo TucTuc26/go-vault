@@ -20,6 +20,7 @@ export interface PokemonFlags {
   xxl?: boolean;
   xxs?: boolean;
   costume?: boolean;
+  background?: boolean;
 }
 
 /** Contexto de datos que necesita el motor (puro, sin red). */

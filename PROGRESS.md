@@ -7,8 +7,10 @@
 
 - **Fase 3 — Ingreso** ✓ (manual, texto masivo, OCR local con Tesseract + lectura de barras por color, Drive de solo lectura, importación de Claude, API opcional en `functions/api/scan.ts`; 68 tests).
 
+- **Fase 4 — Veredicto y guardado** ✓ (PvP/gimnasio/raid/exhibición, redundancia, duplicados, Dexie solo texto, deshacer, reevaluación en Web Worker; 83 tests en total).
+
 ## Pendiente
-- Fases 4 a 8 (ver CLAUDE.md).
+- Fases 5 a 8 (ver CLAUDE.md).
 
 ## Dudas / verificar
 - Ver ⚠ en DECISIONS.md.

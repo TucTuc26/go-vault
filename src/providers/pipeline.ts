@@ -21,7 +21,7 @@ export interface PokemonDraft {
   candidates: Candidate[];
   ivPercentRange: [number, number] | null;
   appraisal: Appraisal | null;
-  flags: PokemonFlags & { shiny?: boolean };
+  flags: PokemonFlags;
   origin: Origin;
   moves: { fast: string | null; charged: string[] };
   sourceId: string | null;
@@ -118,7 +118,7 @@ export function processScan(deps: PipelineDeps, scan: ScanResult, opts: Pipeline
   const purified = scan.flags.purified ?? (PURIFIED_RE.test(speciesText) ? true : null);
   const flags: PokemonFlags = {
     shadow: !!shadow, purified: !!purified, lucky: !!scan.flags.lucky, shiny: !!scan.flags.shiny,
-    bestBuddy: !!scan.flags.bestBuddy, xxl: !!scan.flags.xxl, xxs: !!scan.flags.xxs, costume: !!scan.flags.costume,
+    bestBuddy: !!scan.flags.bestBuddy, xxl: !!scan.flags.xxl, xxs: !!scan.flags.xxs, costume: !!scan.flags.costume, background: !!scan.flags.background,
   };
   const origin: Origin = scan.origin ?? (flags.lucky ? 'lucky_trade' : 'unknown');
 

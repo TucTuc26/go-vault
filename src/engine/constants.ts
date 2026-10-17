@@ -81,3 +81,16 @@ export const SIZE_AFFECTS_STATS = false;
  * el juego redondea al entero más cercano por paso. ⚠ Sin fuente oficial; ver DECISIONS.md.
  */
 export const roundCost = (x: number): number => Math.round(x);
+
+/**
+ * Fórmula de daño del juego (PvE y PvP): daño = floor(0.5 · poder · atk/def · STAB · efectividad) + 1.
+ * Fuente: Bulbapedia "Damage" (Pokémon GO) / PvPoke DamageCalculator. El STAB y la efectividad salen de datos (game.json).
+ */
+export const DAMAGE_HALF = 0.5;
+export const DAMAGE_BONUS = 1;
+
+/**
+ * Parámetros de la ESTIMACIÓN propia de ataque/resistencia en raids (no oficial; se etiqueta "estimación").
+ * defensa del jefe de referencia y exponente que da más peso al DPS que al TDO (puntaje = DPS^0.75 · TDO^0.25).
+ */
+export const RAID_ESTIMATE = { bossDefense: 160, dpsWeight: 0.75, tdoWeight: 0.25, incomingDpsScale: 1 } as const;

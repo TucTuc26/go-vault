@@ -42,6 +42,7 @@ export const ImportItemSchema = z.object({
   xxl: nullableBool,
   xxs: nullableBool,
   costume: nullableBool,
+  background: nullableBool,
   origin: OriginEnum.nullable().optional(),
   fast_move: z.string().nullable().optional(),
   charged_moves: z.array(z.string()).max(3).nullable().optional(),
@@ -126,7 +127,7 @@ export function itemToScan(it: ImportItem, sourceId: string | null = null): Scan
       : null,
     flags: {
       shadow: it.shadow ?? null, purified: it.purified ?? null, lucky: it.lucky ?? null, shiny: it.shiny ?? null,
-      bestBuddy: it.best_buddy ?? null, xxl: it.xxl ?? null, xxs: it.xxs ?? null, costume: it.costume ?? null,
+      bestBuddy: it.best_buddy ?? null, xxl: it.xxl ?? null, xxs: it.xxs ?? null, costume: it.costume ?? null, background: it.background ?? null,
     },
     origin: it.origin ?? null,
     moves: { fast: v(it.fast_move), charged: (it.charged_moves ?? []).map((m) => fv(m, conf)) },

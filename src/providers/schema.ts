@@ -22,6 +22,8 @@ export const ScanFlagsSchema = z.object({
   xxl: z.boolean().nullable().default(null),
   xxs: z.boolean().nullable().default(null),
   costume: z.boolean().nullable().default(null),
+  /** Fondo especial (evento/lugar). */
+  background: z.boolean().nullable().default(null),
 });
 
 export const ScanAppraisalSchema = z.object({
@@ -49,7 +51,7 @@ export const ScanResultSchema = z.object({
   /** IVs exactos (si el usuario los conoce); en ese caso NO se infiere. */
   ivs: z.object({ atk: ivInt, def: ivInt, hp: ivInt }).nullable().default(null),
   appraisal: ScanAppraisalSchema.nullable().default(null),
-  flags: ScanFlagsSchema.default({ shadow: null, purified: null, lucky: null, shiny: null, bestBuddy: null, xxl: null, xxs: null, costume: null }),
+  flags: ScanFlagsSchema.default({ shadow: null, purified: null, lucky: null, shiny: null, bestBuddy: null, xxl: null, xxs: null, costume: null, background: null }),
   origin: OriginEnum.nullable().default(null),
   moves: z
     .object({ fast: field(z.string()), charged: z.array(field(z.string())).max(3) })

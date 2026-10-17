@@ -21,7 +21,7 @@ export function formToScan(f: ManualForm): ScanResult {
         }
       : null,
     origin: f.origin ?? null,
-    flags: { shadow: null, purified: null, lucky: null, shiny: null, bestBuddy: null, xxl: null, xxs: null, costume: null, ...(f.flags ?? {}) },
+    flags: { shadow: null, purified: null, lucky: null, shiny: null, bestBuddy: null, xxl: null, xxs: null, costume: null, background: null, ...(f.flags ?? {}) },
     moves: { fast: fv(f.fast ?? null), charged: (f.charged ?? []).map((c) => fv(c)) },
   });
 }

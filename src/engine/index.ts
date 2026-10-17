@@ -8,3 +8,6 @@ export * from './infer';
 export * from './cost';
 export * from './moveset';
 export * from './plan';
+export * from './population';
+export * from './verdict';
+export * from './reevaluate';

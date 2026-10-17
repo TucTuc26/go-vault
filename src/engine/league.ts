@@ -58,11 +58,30 @@ export function leagueCombos(species: Pick<Species, 'id' | 'atk' | 'def' | 'hp'>
   return out;
 }
 
+const rankIndexCache = new WeakMap<Combo[], Map<number, number>>();
+/** Índice rápido ivs → puesto (0-based) para una lista de combinaciones. */
+export function rankIndex(combos: Combo[]): Map<number, number> {
+  let m = rankIndexCache.get(combos);
+  if (!m) {
+    m = new Map();
+    combos.forEach((c, i) => m!.set(c.ivs.atk * 256 + c.ivs.def * 16 + c.ivs.hp, i));
+    rankIndexCache.set(combos, m);
+  }
+  return m;
+}
+
 const sortedCache = new WeakMap<RankingFile, RankingEntry[]>();
 export function sortedRanking(r: RankingFile): RankingEntry[] {
   let s = sortedCache.get(r);
   if (!s) { s = [...r.entries].sort((a, b) => b.score - a.score); sortedCache.set(r, s); }
   return s;
+}
+
+const posCache = new WeakMap<RankingEntry[], Map<string, number>>();
+function rankPos(_r: RankingFile | undefined, sorted: RankingEntry[], id: string): number {
+  let m = posCache.get(sorted);
+  if (!m) { m = new Map(); sorted.forEach((e, i) => m!.set(e.id, i)); posCache.set(sorted, m); }
+  return m.get(id) ?? -1;
 }
 
 export interface LeagueEvaluation {
@@ -97,7 +116,7 @@ export function evaluateStage(
   const combos = leagueCombos(species, league.cpCap, levelCap, ctx.game);
   const ranking = ctx.rankings[league.key];
   const sorted = ranking ? sortedRanking(ranking) : [];
-  const pos = sorted.findIndex((e) => e.id === stageId);
+  const pos = rankPos(ranking, sorted, stageId);
   const entry = pos >= 0 ? sorted[pos] : null;
   const base: LeagueEvaluation = {
     stageId, leagueKey: league.key, eligible: false, level: null, cp: null, hp: null, ivRank: null,
@@ -105,7 +124,7 @@ export function evaluateStage(
     rankingSize: sorted.length, moveset: entry?.moveset ?? null,
   };
   if (!combos.length) return base;
-  const idx = combos.findIndex((c) => c.ivs.atk === ivs.atk && c.ivs.def === ivs.def && c.ivs.hp === ivs.hp);
+  const idx = rankIndex(combos).get(ivs.atk * 256 + ivs.def * 16 + ivs.hp) ?? -1;
   const top = combos[0];
   base.best = { ivs: top.ivs, level: top.level, cp: top.cp };
   if (idx < 0) return base;
