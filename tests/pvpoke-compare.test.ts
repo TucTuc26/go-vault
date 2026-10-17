@@ -27,10 +27,15 @@ describe('motor vs lógica de PvPoke (generateIVCombinations)', () => {
         for (const i of [0, 1, 17, 100, 1000, ref.length - 1]) {
           const r = ref[Math.min(i, ref.length - 1)];
           const m = mine[Math.min(i, mine.length - 1)];
-          expect(m.ivs).toEqual(r.ivs);
-          expect(m.level).toBe(r.level);
-          expect(m.product).toBeCloseTo(r.overall, 3);
-          expect(m.cp).toBe(r.cp);
+          // la tabla literal de PvPoke tiene 15 cifras: los empates exactos de stat product pueden ordenarse distinto
+          expect(Math.abs(m.product - r.overall) / r.overall).toBeLessThan(1e-9);
+          const idx = Math.min(i, ref.length - 1);
+          const tied = [idx - 1, idx + 1].some((j) => j >= 0 && j < ref.length && Math.abs(ref[j].overall - r.overall) / r.overall < 1e-9);
+          if (!tied) {
+            expect(m.ivs).toEqual(r.ivs);
+            expect(m.level).toBe(r.level);
+            expect(m.cp).toBe(r.cp);
+          }
         }
         cases++;
       }

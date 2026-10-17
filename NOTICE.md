@@ -41,3 +41,6 @@ El repositorio no declara licencia; solo se usan datos factuales del juego, desc
 
 ## Marcas
 Pokémon y Pokémon GO son marcas de Nintendo, Creatures Inc., GAME FREAK inc. y Niantic. GO Vault es un proyecto de fans sin afiliación; no automatiza el juego ni maneja credenciales de Niantic.
+
+## Archivos de PvPoke incluidos en el repositorio
+`tests/vendor/pvpoke/` contiene copias sin modificar de `Battle.js`, `DamageCalculator.js`, `ActionLogic.js`, `TimelineEvent.js`, `TimelineAction.js`, `Pokemon.js` y un fragmento de `GameMaster.js` (PvPoke, MIT, © PvPoke contributors). Se usan solo en las pruebas como referencia del simulador. `src/sim/` es un port a TypeScript derivado de ese código (misma licencia MIT).

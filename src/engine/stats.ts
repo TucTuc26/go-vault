@@ -10,9 +10,10 @@ export function cpmTable(game: GameData): number[] {
   if (t) return t;
   t = [];
   const w = game.cpmWhole;
+  // El juego guarda los cpm como float32: Math.fround reproduce exactamente los valores del cliente (y de PvPoke).
   for (let i = 0; i < w.length; i++) {
-    t.push(w[i]);
-    if (i + 1 < w.length) t.push(halfLevelCpm(w[i], w[i + 1]));
+    t.push(Math.fround(w[i]));
+    if (i + 1 < w.length) t.push(halfLevelCpm(Math.fround(w[i]), Math.fround(w[i + 1])));
   }
   cpmCache.set(game, t);
   return t;

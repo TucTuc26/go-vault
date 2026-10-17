@@ -57,3 +57,12 @@ export async function loadBundle(fetcher: JsonFetcher = defaultFetcher): Promise
     },
   };
 }
+
+/**
+ * Carga mínima para los workers de simulación (game, especies y ataques) SIN revalidar con Zod:
+ * son los mismos archivos que ya validó la app y validar 1751 especies en cada worker cuesta más que simular.
+ */
+export async function loadSimData(fetcher: JsonFetcher = defaultFetcher) {
+  const [game, species, moves] = await Promise.all([fetcher('game.json'), fetcher('species.json'), fetcher('moves.json')]) as [GameData, Species[], Move[]];
+  return { game, speciesById: new Map(species.map((s) => [s.id, s])), movesById: new Map(moves.map((m) => [m.id, m])) };
+}

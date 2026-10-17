@@ -9,14 +9,11 @@ export interface RefCombo {
   atk: number; def: number; hp: number; overall: number; cp: number;
 }
 
-export function pvpokeCpms(cpmsWhole: number[]): number[] {
-  // PvPoke guarda cpms por medio nivel: índice (nivel-1)*2
-  const out: number[] = [];
-  for (let i = 0; i < cpmsWhole.length; i++) {
-    out.push(cpmsWhole[i]);
-    if (i + 1 < cpmsWhole.length) out.push(Math.sqrt((cpmsWhole[i] ** 2 + cpmsWhole[i + 1] ** 2) / 2));
-  }
-  return out;
+import { originalCpmTable } from './pvpoke-original';
+
+/** Tabla de cpm literal de PvPoke (Pokemon.js), niveles 1–51 de 0.5 en 0.5. */
+export function pvpokeCpms(_cpmsWhole?: number[]): number[] {
+  return originalCpmTable();
 }
 
 export function pvpokeGenerateIVCombinations(

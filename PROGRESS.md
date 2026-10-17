@@ -13,10 +13,14 @@
 
 - **Fase 6 — Top 100** ✓ (todas las ligas/copas, filtros, lo tengo/me falta, ficha con matchups y counters; test de UI).
 
+- **Fase 7 — Equipos** ✓ (port del simulador de PvPoke verificado contra el original en 210 combates; equipos de 3 por liga/copa con matriz en caché, alternativas, ¿qué me falta?, costos; incursiones y gimnasios; Dynamax no implementado: ver DECISIONS).
+
 ## Pendiente
-- Fases 7 a 8 (ver CLAUDE.md).
+- Fase 8 (PWA, actualización, respaldo, despliegue).
 
 ## Dudas / verificar
+- Rendimiento en iPhone real (meta <5 s con 30+ Pokémon): en escritorio 1.1 s para 38 candidatos.
+- Valores de jefes de incursión (`RAID_TIERS`) tomados de fuentes de la comunidad.
 - Ver ⚠ en DECISIONS.md.
 - **OCR sin capturas reales**: las zonas de `src/providers/ocr/layout.ts` son una estimación; hay que probar con capturas reales del iPhone y ajustar.
 

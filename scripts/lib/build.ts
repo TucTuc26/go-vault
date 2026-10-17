@@ -46,6 +46,7 @@ export function buildGame(gm: GmTemplate[], pvpokeBase: Json, warnings: string[]
     const w = tdata(t).weatherAffinities;
     byWeather[String(w.weatherCondition).toLowerCase()] = (w.pokemonType as string[]).map(lowerType);
   }
+  const mega = tdata(idx.get("MEGA_EVO_SETTINGS"))?.megaEvoSettings;
   const friendship: { level: number; attackBonus: number }[] = [];
   for (let l = 0; l <= 4; l++) {
     const f = tdata(idx.get(`FRIENDSHIP_LEVEL_${l}`))?.friendshipMilestoneSettings;
@@ -102,6 +103,7 @@ export function buildGame(gm: GmTemplate[], pvpokeBase: Json, warnings: string[]
       byWeather,
     },
     friendship,
+    mega: mega ? { sameType: mega.attackBoostFromMegaSameType, otherType: mega.attackBoostFromMegaDifferentType } : undefined,
     typeOrder: [...GM_TYPE_ORDER],
     typeChart,
     leagues,
@@ -247,6 +249,8 @@ export function buildSpecies(pvpokeList: Json[], gm: GmTemplate[], warnings: str
         tags: p.tags ?? [],
         released: p.released !== false,
         levelFloor: p.levelFloor,
+        nativeStatBuffs: p.nativeStatBuffs,
+        formChange: p.formChange ? true : undefined,
         buddyKm: p.buddyDistance ?? tpl?.s.kmBuddyDistance ?? null,
       }),
     );
@@ -280,6 +284,12 @@ export function buildMoves(pvpokeMoves: Json[], gm: GmTemplate[]): Move[] {
       buffTarget: m.buffTarget,
       buffApplyChance: m.buffApplyChance !== undefined ? String(m.buffApplyChance) : undefined,
       archetype: m.archetype,
+      category: m.category,
+      damageMethod: m.damageMethod,
+      buffsSelf: m.buffsSelf,
+      buffsOpponent: m.buffsOpponent,
+      tags: m.tags,
+      isMegaMove: m.isMegaMove,
       pve: p
         ? { power: p.power ?? 0, durationMs: p.durationMs ?? 0, energy: p.energyDelta ?? 0, windowStartMs: p.damageWindowStartMs }
         : undefined,

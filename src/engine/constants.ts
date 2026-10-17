@@ -94,3 +94,19 @@ export const DAMAGE_BONUS = 1;
  * defensa del jefe de referencia y exponente que da más peso al DPS que al TDO (puntaje = DPS^0.75 · TDO^0.25).
  */
 export const RAID_ESTIMATE = { bossDefense: 160, dpsWeight: 0.75, tdoWeight: 0.25, incomingDpsScale: 1 } as const;
+
+/**
+ * Jefes de incursión por nivel: multiplicador de CP y PS del jefe. NO están en el Game Master (los fija el servidor).
+ * Fuente: valores publicados por la comunidad (GamePress "Raid Boss HP & CP", Bulbapedia "Raid Battle"); ⚠ verificar
+ * si Niantic los cambia. Se usan solo para la ESTIMACIÓN de ataque en incursiones (etiquetada como tal).
+ */
+export const RAID_TIERS = {
+  tier1: { label: 'Nivel 1', cpm: 0.5974, hp: 600 },
+  tier3: { label: 'Nivel 3', cpm: 0.73, hp: 3600 },
+  tier5: { label: 'Nivel 5 (legendario)', cpm: 0.7903, hp: 15000 },
+  mega: { label: 'Mega', cpm: 0.7903, hp: 9000 },
+  megaLegendary: { label: 'Mega legendario', cpm: 0.7903, hp: 22500 },
+} as const;
+export type RaidTierKey = keyof typeof RAID_TIERS;
+/** IV del jefe de incursión (siempre 15/15/15). Fuente: Bulbapedia "Raid Battle". */
+export const RAID_BOSS_IV = 15;

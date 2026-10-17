@@ -41,6 +41,8 @@ export const GameDataSchema = z.object({
     byWeather: z.record(z.string(), z.array(z.string())),
   }),
   friendship: z.array(z.object({ level: z.number(), attackBonus: z.number() })),
+  /** Bono de ataque de la mega evolución activa (MEGA_EVO_SETTINGS). */
+  mega: z.object({ sameType: z.number(), otherType: z.number() }).optional(),
   /** Orden de tipos del juego y matriz [atacante][defensor] de multiplicadores. */
   typeOrder: z.array(z.string()),
   typeChart: z.record(z.string(), z.array(z.number())),
@@ -91,6 +93,10 @@ export const SpeciesSchema = z.object({
   tags: z.array(z.string()),
   released: z.boolean(),
   levelFloor: z.number().optional(),
+  /** Mejoras de ataque/defensa nativas de la forma (PvPoke). */
+  nativeStatBuffs: z.array(z.number()).optional(),
+  /** Cambio de forma durante el combate (Aegislash, Mimikyu, Cramorant…): el simulador no lo modela. */
+  formChange: z.boolean().optional(),
   /** Mínimo CP requerido para ligas "Little" y similares viene del ranking, no de aquí. */
   buddyKm: z.number().nullable().optional(),
 });
@@ -109,6 +115,12 @@ export const MoveSchema = z.object({
   buffTarget: z.string().optional(),
   buffApplyChance: z.string().optional(),
   archetype: z.string().optional(),
+  category: z.string().optional(),
+  damageMethod: z.string().optional(),
+  buffsSelf: z.array(z.number()).optional(),
+  buffsOpponent: z.array(z.number()).optional(),
+  tags: z.array(z.string()).optional(),
+  isMegaMove: z.boolean().optional(),
   /** Datos PvE (raids/gimnasios) del Game Master del juego, si existen. */
   pve: z
     .object({ power: z.number(), durationMs: z.number(), energy: z.number(), windowStartMs: z.number().optional() })

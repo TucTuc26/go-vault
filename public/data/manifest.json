@@ -1,49 +1,49 @@
 {
  "schema": 1,
- "builtAt": "2026-10-17T07:05:28.431Z",
- "dataVersion": "5eb8fc1afd6b7a27",
+ "builtAt": "2026-10-17T07:57:04.475Z",
+ "dataVersion": "1c9648cc71dc4c52",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
    "version": "84f89a22460519d3",
-   "fetchedAt": "2026-10-17T07:05:22.500Z"
+   "fetchedAt": "2026-10-17T07:57:03.700Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-10-17T07:05:22.500Z"
+   "fetchedAt": "2026-10-17T07:57:03.700Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-10-17T07:05:22.500Z"
+   "fetchedAt": "2026-10-17T07:57:03.700Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-10-17T07:05:22.500Z"
+   "fetchedAt": "2026-10-17T07:57:03.700Z"
   }
  ],
  "files": {
   "game.json": {
-   "hash": "67eef4b826e923f6",
-   "bytes": 3564
+   "hash": "41a468490e4dd4c8",
+   "bytes": 3604
   },
   "species.json": {
-   "hash": "779afabb17682903",
-   "bytes": 844075
+   "hash": "a965ac29df67d14a",
+   "bytes": 844268
   },
   "moves.json": {
-   "hash": "92d8b857bc3fa17e",
-   "bytes": 78299
+   "hash": "d708d2ca6051dd36",
+   "bytes": 78835
   },
   "formats.json": {
    "hash": "6c1fc97805997300",

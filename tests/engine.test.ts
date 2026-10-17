@@ -25,7 +25,7 @@ describe('CP / PS / niveles', () => {
     expect(calcHP(b, { atk: 0, def: 0, hp: 0 }, cpmAt(ctx.game, 1))).toBe(10);
   });
   it('niveles en pasos de 0.5, rechaza niveles inválidos', () => {
-    expect(cpmAt(ctx.game, 1)).toBe(0.094);
+    expect(cpmAt(ctx.game, 1)).toBeCloseTo(0.094, 7); // float32 como el cliente del juego
     expect(cpmAt(ctx.game, 1.5)).toBeCloseTo(0.1351374318, 7);
     expect(() => cpmAt(ctx.game, 1.3)).toThrow();
     expect(cpmAt(ctx.game, 51)).toBeGreaterThan(cpmAt(ctx.game, 50));

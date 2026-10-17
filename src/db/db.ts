@@ -20,6 +20,8 @@ export class GoVaultDB extends Dexie {
   review!: Table<ReviewItem, number>;
   kv!: Table<KV, string>;
   driveSeen!: Table<{ id: string }, string>;
+  /** Caché de la matriz de simulaciones (solo números). */
+  matrix!: Table<{ key: string; row: number[] }, string>;
 
   constructor(name = 'go-vault') {
     super(name);
@@ -28,6 +30,13 @@ export class GoVaultDB extends Dexie {
       review: '++id, createdAt',
       kv: 'key',
       driveSeen: 'id',
+    });
+    this.version(2).stores({
+      pokemon: '++id, speciesId, createdAt, *roleKeys',
+      review: '++id, createdAt',
+      kv: 'key',
+      driveSeen: 'id',
+      matrix: 'key',
     });
   }
 }
@@ -73,5 +82,13 @@ export function dbSeenStore(d: GoVaultDB): SeenStore {
   return {
     has: async (id) => !!(await d.driveSeen.get(id)),
     add: async (ids) => { await d.driveSeen.bulkPut(ids.map((id) => ({ id }))); },
+  };
+}
+
+/** Caché de filas de la matriz de simulaciones respaldada por IndexedDB (solo números, nunca imágenes). */
+export function dbRowCache(d: GoVaultDB) {
+  return {
+    get: async (key: string) => (await d.matrix.get(key))?.row,
+    set: async (key: string, row: number[]) => { await d.matrix.put({ key, row }); },
   };
 }
