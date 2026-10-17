@@ -1,0 +1,41 @@
+name: Actualizar datos
+
+on:
+  schedule:
+    - cron: '17 */6 * * *' # cada 6 horas
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Si la descarga o la validación falla, el paso termina en error y NO se commitea nada
+      # (los datos anteriores quedan intactos y la ejecución aparece en rojo en GitHub).
+      - name: Descargar y normalizar datos
+        run: npm run data:fetch
+      - name: Verificar datos (tests)
+        run: npm test
+      - name: Commit si hay cambios
+        run: |
+          if [ -n "$(git status --porcelain public/data)" ]; then
+            git config user.name "go-vault-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add public/data
+            git commit -m "chore(data): actualizar datos del juego y rankings"
+            git push
+          else
+            echo "Sin cambios en los datos."
+          fi

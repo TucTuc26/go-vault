@@ -1,0 +1,253 @@
+{
+ "schema": 1,
+ "builtAt": "2026-10-17T07:05:28.431Z",
+ "dataVersion": "5eb8fc1afd6b7a27",
+ "sources": [
+  {
+   "name": "PvPoke",
+   "url": "https://github.com/pvpoke/pvpoke",
+   "license": "MIT",
+   "version": "84f89a22460519d3",
+   "fetchedAt": "2026-10-17T07:05:22.500Z"
+  },
+  {
+   "name": "PokeMiners game_masters",
+   "url": "https://github.com/PokeMiners/game_masters",
+   "license": "Datos del juego (sin licencia explícita)",
+   "version": "2026-08-28T07:35:50.208Z",
+   "fetchedAt": "2026-10-17T07:05:22.500Z"
+  },
+  {
+   "name": "PokeAPI",
+   "url": "https://github.com/PokeAPI/pokeapi",
+   "license": "BSD-3-Clause (datos)",
+   "version": "master",
+   "fetchedAt": "2026-10-17T07:05:22.500Z"
+  },
+  {
+   "name": "PokeAPI sprites",
+   "url": "https://github.com/PokeAPI/sprites",
+   "license": "CC0 (sprites; por URL)",
+   "version": "master",
+   "fetchedAt": "2026-10-17T07:05:22.500Z"
+  }
+ ],
+ "files": {
+  "game.json": {
+   "hash": "67eef4b826e923f6",
+   "bytes": 3564
+  },
+  "species.json": {
+   "hash": "779afabb17682903",
+   "bytes": 844075
+  },
+  "moves.json": {
+   "hash": "92d8b857bc3fa17e",
+   "bytes": 78299
+  },
+  "formats.json": {
+   "hash": "6c1fc97805997300",
+   "bytes": 3126
+  },
+  "cups.json": {
+   "hash": "e57010e1dfa71df0",
+   "bytes": 9189
+  },
+  "names-es.json": {
+   "hash": "ce530610d837a59f",
+   "bytes": 25176
+  },
+  "rankings/all-1500.json": {
+   "hash": "f7284e0b97d2f9b5",
+   "bytes": 333559
+  },
+  "rankings/all-2500.json": {
+   "hash": "93a97c52dfab9fb5",
+   "bytes": 261212
+  },
+  "rankings/all-10000.json": {
+   "hash": "632229450515d725",
+   "bytes": 147029
+  },
+  "rankings/all-500.json": {
+   "hash": "7ed8331a23735159",
+   "bytes": 73718
+  },
+  "rankings/mega-1500.json": {
+   "hash": "f27346358edf55f5",
+   "bytes": 349742
+  },
+  "rankings/mega-2500.json": {
+   "hash": "2edcf32077ef9490",
+   "bytes": 279160
+  },
+  "rankings/mega-10000.json": {
+   "hash": "e56e0349c8f3d9e9",
+   "bytes": 167298
+  },
+  "rankings/little-500.json": {
+   "hash": "46c36ffdbae1e9ca",
+   "bytes": 157022
+  },
+  "rankings/fantasy-1500.json": {
+   "hash": "7a52b7e4061877ca",
+   "bytes": 87994
+  },
+  "rankings/laic2027-1500.json": {
+   "hash": "d6623cf17ed33968",
+   "bytes": 249186
+  },
+  "rankings/spectral-1500.json": {
+   "hash": "67d5dca9e9fdfc98",
+   "bytes": 82919
+  },
+  "rankings/cauldron-2500.json": {
+   "hash": "e9d39c311a58e2cb",
+   "bytes": 118699
+  },
+  "rankings/battlefrontiermaster-10000.json": {
+   "hash": "26d0108eeea4543e",
+   "bytes": 154401
+  },
+  "rankings/trail-1500.json": {
+   "hash": "7e5226a0649d8229",
+   "bytes": 104683
+  },
+  "rankings/gymbreakers-1500.json": {
+   "hash": "50f80ae5966198a0",
+   "bytes": 127842
+  },
+  "rankings/premier-10000.json": {
+   "hash": "71829df0dd18ce76",
+   "bytes": 108790
+  },
+  "rankings/catch-1500.json": {
+   "hash": "99488983447ca99e",
+   "bytes": 288351
+  }
+ },
+ "rankings": [
+  {
+   "key": "all-1500",
+   "cup": "all",
+   "cp": 1500,
+   "title": "Super Liga",
+   "count": 1153
+  },
+  {
+   "key": "all-2500",
+   "cup": "all",
+   "cp": 2500,
+   "title": "Ultra Liga",
+   "count": 850
+  },
+  {
+   "key": "all-10000",
+   "cup": "all",
+   "cp": 10000,
+   "title": "Liga Máster",
+   "count": 409
+  },
+  {
+   "key": "all-500",
+   "cup": "all",
+   "cp": 500,
+   "title": "Liga Little (todos)",
+   "count": 168
+  },
+  {
+   "key": "mega-1500",
+   "cup": "mega",
+   "cp": 1500,
+   "title": "Mega Great League",
+   "count": 1210
+  },
+  {
+   "key": "mega-2500",
+   "cup": "mega",
+   "cp": 2500,
+   "title": "Mega Ultra League",
+   "count": 912
+  },
+  {
+   "key": "mega-10000",
+   "cup": "mega",
+   "cp": 10000,
+   "title": "Mega Master League",
+   "count": 470
+  },
+  {
+   "key": "little-500",
+   "cup": "little",
+   "cp": 500,
+   "title": "Little Cup",
+   "count": 528
+  },
+  {
+   "key": "fantasy-1500",
+   "cup": "fantasy",
+   "cp": 1500,
+   "title": "Fantasy Cup",
+   "count": 197
+  },
+  {
+   "key": "laic2027-1500",
+   "cup": "laic2027",
+   "cp": 1500,
+   "title": "LAIC 2027 Championship Series Cup",
+   "count": 828
+  },
+  {
+   "key": "spectral-1500",
+   "cup": "spectral",
+   "cp": 1500,
+   "title": "Battle Frontier (Spectral)",
+   "count": 189
+  },
+  {
+   "key": "cauldron-2500",
+   "cup": "cauldron",
+   "cp": 2500,
+   "title": "Battle Frontier (Cauldron)",
+   "count": 307
+  },
+  {
+   "key": "battlefrontiermaster-10000",
+   "cup": "battlefrontiermaster",
+   "cp": 10000,
+   "title": "Battle Frontier (Master)",
+   "count": 430
+  },
+  {
+   "key": "trail-1500",
+   "cup": "trail",
+   "cp": 1500,
+   "title": "Devon Trail Cup",
+   "count": 250
+  },
+  {
+   "key": "gymbreakers-1500",
+   "cup": "gymbreakers",
+   "cp": 1500,
+   "title": "Gymbreakers Invitational Season 7",
+   "count": 374
+  },
+  {
+   "key": "premier-10000",
+   "cup": "premier",
+   "cp": 10000,
+   "title": "Master Premier Cup",
+   "count": 274
+  },
+  {
+   "key": "catch-1500",
+   "cup": "catch",
+   "cp": 1500,
+   "title": "Catch Cup",
+   "count": 995
+  }
+ ],
+ "warnings": [
+  "9 especies liberadas de PvPoke sin plantilla en el Game Master (se usan datos de PvPoke)."
+ ]
+}
