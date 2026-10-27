@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-10-21T06:49:35.445Z",
- "dataVersion": "6549c3c7018b7152",
+ "builtAt": "2026-10-27T00:53:14.611Z",
+ "dataVersion": "3804f1c1cd1d7a21",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "733b6968542694f2",
-   "fetchedAt": "2026-10-21T06:49:30.372Z"
+   "version": "a6a813408e7f9f0f",
+   "fetchedAt": "2026-10-27T00:53:07.579Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-10-21T06:49:30.372Z"
+   "fetchedAt": "2026-10-27T00:53:07.579Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-10-21T06:49:30.372Z"
+   "fetchedAt": "2026-10-27T00:53:07.579Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-10-21T06:49:30.372Z"
+   "fetchedAt": "2026-10-27T00:53:07.579Z"
   }
  ],
  "files": {
@@ -46,12 +46,12 @@
    "bytes": 78835
   },
   "formats.json": {
-   "hash": "6c1fc97805997300",
-   "bytes": 3126
+   "hash": "bf29e035064c41bf",
+   "bytes": 3369
   },
   "cups.json": {
-   "hash": "df81642a9f6ac011",
-   "bytes": 9219
+   "hash": "a93ade7e09a81b97",
+   "bytes": 10242
   },
   "names-es.json": {
    "hash": "ce530610d837a59f",
@@ -85,13 +85,13 @@
    "hash": "e56e0349c8f3d9e9",
    "bytes": 167298
   },
-  "rankings/little-500.json": {
-   "hash": "46c36ffdbae1e9ca",
-   "bytes": 157022
-  },
   "rankings/fantasy-1500.json": {
    "hash": "7a52b7e4061877ca",
    "bytes": 87994
+  },
+  "rankings/halloweenmega-1500.json": {
+   "hash": "60505b283d4517b8",
+   "bytes": 134345
   },
   "rankings/laic2027-1500.json": {
    "hash": "d6623cf17ed33968",
@@ -106,12 +106,16 @@
    "bytes": 118699
   },
   "rankings/battlefrontiermaster-10000.json": {
-   "hash": "26d0108eeea4543e",
-   "bytes": 154401
+   "hash": "80e607461313ddc4",
+   "bytes": 152393
   },
   "rankings/trail-1500.json": {
    "hash": "7e5226a0649d8229",
    "bytes": 104683
+  },
+  "rankings/fable-1500.json": {
+   "hash": "75f95c5d65e27659",
+   "bytes": 112395
   },
   "rankings/gymbreakers-1500.json": {
    "hash": "50f80ae5966198a0",
@@ -120,6 +124,10 @@
   "rankings/premier-10000.json": {
    "hash": "71829df0dd18ce76",
    "bytes": 108790
+  },
+  "rankings/little-500.json": {
+   "hash": "46c36ffdbae1e9ca",
+   "bytes": 157022
   },
   "rankings/catch-1500.json": {
    "hash": "99488983447ca99e",
@@ -177,18 +185,18 @@
    "count": 470
   },
   {
-   "key": "little-500",
-   "cup": "little",
-   "cp": 500,
-   "title": "Little Cup",
-   "count": 528
-  },
-  {
    "key": "fantasy-1500",
    "cup": "fantasy",
    "cp": 1500,
    "title": "Fantasy Cup",
    "count": 197
+  },
+  {
+   "key": "halloweenmega-1500",
+   "cup": "halloweenmega",
+   "cp": 1500,
+   "title": "Mega Halloween Cup",
+   "count": 377
   },
   {
    "key": "laic2027-1500",
@@ -216,7 +224,7 @@
    "cup": "battlefrontiermaster",
    "cp": 10000,
    "title": "Battle Frontier (Master)",
-   "count": 430
+   "count": 423
   },
   {
    "key": "trail-1500",
@@ -224,6 +232,13 @@
    "cp": 1500,
    "title": "Devon Trail Cup",
    "count": 250
+  },
+  {
+   "key": "fable-1500",
+   "cup": "fable",
+   "cp": 1500,
+   "title": "Devon Fable Cup",
+   "count": 297
   },
   {
    "key": "gymbreakers-1500",
@@ -238,6 +253,13 @@
    "cp": 10000,
    "title": "Master Premier Cup",
    "count": 274
+  },
+  {
+   "key": "little-500",
+   "cup": "little",
+   "cp": 500,
+   "title": "Little Cup",
+   "count": 528
   },
   {
    "key": "catch-1500",
