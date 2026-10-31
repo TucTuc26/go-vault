@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-10-29T07:00:31.974Z",
- "dataVersion": "4e0d30f2d81df3c7",
+ "builtAt": "2026-10-31T06:56:11.670Z",
+ "dataVersion": "f7f862245a1a0a4a",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "639d7c4602adafee",
-   "fetchedAt": "2026-10-29T07:00:26.910Z"
+   "version": "43edce7b7d48e414",
+   "fetchedAt": "2026-10-31T06:56:08.702Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-10-29T07:00:26.910Z"
+   "fetchedAt": "2026-10-31T06:56:08.702Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-10-29T07:00:26.910Z"
+   "fetchedAt": "2026-10-31T06:56:08.702Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-10-29T07:00:26.910Z"
+   "fetchedAt": "2026-10-31T06:56:08.702Z"
   }
  ],
  "files": {
@@ -38,8 +38,8 @@
    "bytes": 3604
   },
   "species.json": {
-   "hash": "38e4f239b1434428",
-   "bytes": 844844
+   "hash": "6368af15f06360ad",
+   "bytes": 844871
   },
   "moves.json": {
    "hash": "f615c233092eff22",
@@ -58,8 +58,8 @@
    "bytes": 25208
   },
   "rankings/all-1500.json": {
-   "hash": "18db4b237a998a10",
-   "bytes": 333716
+   "hash": "b4a9885f5f9f2883",
+   "bytes": 333746
   },
   "rankings/all-2500.json": {
    "hash": "b16d526a5902488b",
@@ -74,16 +74,16 @@
    "bytes": 73718
   },
   "rankings/mega-1500.json": {
-   "hash": "c2776e05bf9f607d",
-   "bytes": 349833
+   "hash": "2d75518a14a9b1d4",
+   "bytes": 350234
   },
   "rankings/mega-2500.json": {
-   "hash": "13a6eb72aba25c77",
-   "bytes": 279448
+   "hash": "486f1eb227f01697",
+   "bytes": 279769
   },
   "rankings/mega-10000.json": {
-   "hash": "e56e0349c8f3d9e9",
-   "bytes": 167298
+   "hash": "da18a8e4c2335697",
+   "bytes": 167766
   },
   "rankings/fantasy-1500.json": {
    "hash": "7a52b7e4061877ca",
@@ -168,21 +168,21 @@
    "cup": "mega",
    "cp": 1500,
    "title": "Mega Great League",
-   "count": 1211
+   "count": 1212
   },
   {
    "key": "mega-2500",
    "cup": "mega",
    "cp": 2500,
    "title": "Mega Ultra League",
-   "count": 913
+   "count": 914
   },
   {
    "key": "mega-10000",
    "cup": "mega",
    "cp": 10000,
    "title": "Mega Master League",
-   "count": 470
+   "count": 472
   },
   {
    "key": "fantasy-1500",
