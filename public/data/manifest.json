@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-10-31T06:56:11.670Z",
- "dataVersion": "f7f862245a1a0a4a",
+ "builtAt": "2026-11-01T18:49:26.649Z",
+ "dataVersion": "8779cb18fef20ff0",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "43edce7b7d48e414",
-   "fetchedAt": "2026-10-31T06:56:08.702Z"
+   "version": "ab5c55a500aa626f",
+   "fetchedAt": "2026-11-01T18:49:23.263Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-10-31T06:56:08.702Z"
+   "fetchedAt": "2026-11-01T18:49:23.263Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-10-31T06:56:08.702Z"
+   "fetchedAt": "2026-11-01T18:49:23.263Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-10-31T06:56:08.702Z"
+   "fetchedAt": "2026-11-01T18:49:23.263Z"
   }
  ],
  "files": {
@@ -38,12 +38,12 @@
    "bytes": 3604
   },
   "species.json": {
-   "hash": "6368af15f06360ad",
-   "bytes": 844871
+   "hash": "d4e388c03c7b5f34",
+   "bytes": 844902
   },
   "moves.json": {
-   "hash": "f615c233092eff22",
-   "bytes": 79210
+   "hash": "618eee2f868d9649",
+   "bytes": 79376
   },
   "formats.json": {
    "hash": "bf29e035064c41bf",
@@ -74,24 +74,24 @@
    "bytes": 73718
   },
   "rankings/mega-1500.json": {
-   "hash": "2d75518a14a9b1d4",
-   "bytes": 350234
+   "hash": "23964f599502a23a",
+   "bytes": 350201
   },
   "rankings/mega-2500.json": {
-   "hash": "486f1eb227f01697",
-   "bytes": 279769
+   "hash": "27e659c78f896302",
+   "bytes": 279771
   },
   "rankings/mega-10000.json": {
-   "hash": "da18a8e4c2335697",
-   "bytes": 167766
+   "hash": "fd1a6bfd9ef50eae",
+   "bytes": 167780
   },
   "rankings/fantasy-1500.json": {
    "hash": "7a52b7e4061877ca",
    "bytes": 87994
   },
   "rankings/halloweenmega-1500.json": {
-   "hash": "60505b283d4517b8",
-   "bytes": 134345
+   "hash": "d0892bef0186a190",
+   "bytes": 134679
   },
   "rankings/laic2027-1500.json": {
    "hash": "d6623cf17ed33968",
@@ -196,7 +196,7 @@
    "cup": "halloweenmega",
    "cp": 1500,
    "title": "Mega Halloween Cup",
-   "count": 377
+   "count": 378
   },
   {
    "key": "laic2027-1500",
