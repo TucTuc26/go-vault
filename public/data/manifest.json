@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-11-01T18:49:26.649Z",
- "dataVersion": "8779cb18fef20ff0",
+ "builtAt": "2026-11-03T07:14:43.376Z",
+ "dataVersion": "bdeb5f0480846cd0",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "ab5c55a500aa626f",
-   "fetchedAt": "2026-11-01T18:49:23.263Z"
+   "version": "72170dc227984307",
+   "fetchedAt": "2026-11-03T07:14:40.314Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-11-01T18:49:23.263Z"
+   "fetchedAt": "2026-11-03T07:14:40.314Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-11-01T18:49:23.263Z"
+   "fetchedAt": "2026-11-03T07:14:40.314Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-11-01T18:49:23.263Z"
+   "fetchedAt": "2026-11-03T07:14:40.314Z"
   }
  ],
  "files": {
@@ -50,8 +50,8 @@
    "bytes": 3369
   },
   "cups.json": {
-   "hash": "a93ade7e09a81b97",
-   "bytes": 10242
+   "hash": "4a15276c37ed49f2",
+   "bytes": 10313
   },
   "names-es.json": {
    "hash": "dd8f091664704e4c",
@@ -106,8 +106,8 @@
    "bytes": 118699
   },
   "rankings/battlefrontiermaster-10000.json": {
-   "hash": "80e607461313ddc4",
-   "bytes": 152393
+   "hash": "8f6fae2a20347ac8",
+   "bytes": 151471
   },
   "rankings/trail-1500.json": {
    "hash": "7e5226a0649d8229",
@@ -224,7 +224,7 @@
    "cup": "battlefrontiermaster",
    "cp": 10000,
    "title": "Battle Frontier (Master)",
-   "count": 423
+   "count": 420
   },
   {
    "key": "trail-1500",
