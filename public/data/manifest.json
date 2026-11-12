@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-11-09T18:59:40.594Z",
- "dataVersion": "bf1845ac2d3d8463",
+ "builtAt": "2026-11-12T07:26:06.057Z",
+ "dataVersion": "fd1d3f1cdc316224",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "d90c1d0274278971",
-   "fetchedAt": "2026-11-09T18:59:35.093Z"
+   "version": "3ecf3eab9c166443",
+   "fetchedAt": "2026-11-12T07:26:00.422Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-11-09T18:59:35.093Z"
+   "fetchedAt": "2026-11-12T07:26:00.422Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-11-09T18:59:35.093Z"
+   "fetchedAt": "2026-11-12T07:26:00.422Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-11-09T18:59:35.093Z"
+   "fetchedAt": "2026-11-12T07:26:00.422Z"
   }
  ],
  "files": {
@@ -38,24 +38,24 @@
    "bytes": 3604
   },
   "species.json": {
-   "hash": "d4e388c03c7b5f34",
-   "bytes": 844902
+   "hash": "111d332fc46d785c",
+   "bytes": 845431
   },
   "moves.json": {
-   "hash": "618eee2f868d9649",
-   "bytes": 79376
+   "hash": "6ca3aa1331194aac",
+   "bytes": 79713
   },
   "formats.json": {
    "hash": "74f16f82ff79dada",
    "bytes": 3582
   },
   "cups.json": {
-   "hash": "ca55cb53d15fcb51",
-   "bytes": 10599
+   "hash": "77325cf7b6e797ef",
+   "bytes": 10569
   },
   "names-es.json": {
-   "hash": "dd8f091664704e4c",
-   "bytes": 25208
+   "hash": "fd0563ed71334726",
+   "bytes": 25225
   },
   "rankings/all-1500.json": {
    "hash": "b4a9885f5f9f2883",
@@ -74,24 +74,24 @@
    "bytes": 73718
   },
   "rankings/mega-1500.json": {
-   "hash": "23964f599502a23a",
-   "bytes": 350201
+   "hash": "ee0cb00151853244",
+   "bytes": 351635
   },
   "rankings/mega-2500.json": {
    "hash": "27e659c78f896302",
    "bytes": 279771
   },
   "rankings/mega-10000.json": {
-   "hash": "fd1a6bfd9ef50eae",
-   "bytes": 167780
+   "hash": "6a347b9e17f02245",
+   "bytes": 167812
   },
   "rankings/laic2027gbl-1500.json": {
-   "hash": "febc349e88bf4ee4",
-   "bytes": 233297
+   "hash": "f740edde7e036531",
+   "bytes": 233283
   },
   "rankings/laic2027-1500.json": {
-   "hash": "d6623cf17ed33968",
-   "bytes": 249186
+   "hash": "4ec615ff58f30b30",
+   "bytes": 251156
   },
   "rankings/spectral-1500.json": {
    "hash": "67d5dca9e9fdfc98",
@@ -164,7 +164,7 @@
    "cup": "mega",
    "cp": 1500,
    "title": "Mega Great League",
-   "count": 1212
+   "count": 1217
   },
   {
    "key": "mega-2500",
@@ -192,7 +192,7 @@
    "cup": "laic2027",
    "cp": 1500,
    "title": "LAIC 2027 Championship Series Cup",
-   "count": 828
+   "count": 835
   },
   {
    "key": "spectral-1500",
