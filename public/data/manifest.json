@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-11-12T07:26:06.057Z",
- "dataVersion": "fd1d3f1cdc316224",
+ "builtAt": "2026-11-16T21:58:36.760Z",
+ "dataVersion": "9d04539dc159839b",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "3ecf3eab9c166443",
-   "fetchedAt": "2026-11-12T07:26:00.422Z"
+   "version": "82fedc2a39f40edf",
+   "fetchedAt": "2026-11-16T21:58:32.952Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-11-12T07:26:00.422Z"
+   "fetchedAt": "2026-11-16T21:58:32.952Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-11-12T07:26:00.422Z"
+   "fetchedAt": "2026-11-16T21:58:32.952Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-11-12T07:26:00.422Z"
+   "fetchedAt": "2026-11-16T21:58:32.952Z"
   }
  ],
  "files": {
@@ -38,8 +38,8 @@
    "bytes": 3604
   },
   "species.json": {
-   "hash": "111d332fc46d785c",
-   "bytes": 845431
+   "hash": "763cc2b675663b48",
+   "bytes": 845447
   },
   "moves.json": {
    "hash": "6ca3aa1331194aac",
@@ -58,32 +58,32 @@
    "bytes": 25225
   },
   "rankings/all-1500.json": {
-   "hash": "b4a9885f5f9f2883",
-   "bytes": 333746
+   "hash": "c84d2abe80223e7e",
+   "bytes": 334283
   },
   "rankings/all-2500.json": {
-   "hash": "b16d526a5902488b",
-   "bytes": 261486
+   "hash": "f270542949134ebe",
+   "bytes": 261966
   },
   "rankings/all-10000.json": {
-   "hash": "632229450515d725",
-   "bytes": 147029
+   "hash": "8fab1918f541295c",
+   "bytes": 147317
   },
   "rankings/all-500.json": {
    "hash": "7ed8331a23735159",
    "bytes": 73718
   },
   "rankings/mega-1500.json": {
-   "hash": "ee0cb00151853244",
-   "bytes": 351635
+   "hash": "72012f46a3fd47e3",
+   "bytes": 352367
   },
   "rankings/mega-2500.json": {
-   "hash": "27e659c78f896302",
-   "bytes": 279771
+   "hash": "fee9840f562078db",
+   "bytes": 280320
   },
   "rankings/mega-10000.json": {
-   "hash": "6a347b9e17f02245",
-   "bytes": 167812
+   "hash": "69415cc838316f16",
+   "bytes": 168096
   },
   "rankings/laic2027gbl-1500.json": {
    "hash": "f740edde7e036531",
@@ -136,21 +136,21 @@
    "cup": "all",
    "cp": 1500,
    "title": "Super Liga",
-   "count": 1154
+   "count": 1156
   },
   {
    "key": "all-2500",
    "cup": "all",
    "cp": 2500,
    "title": "Ultra Liga",
-   "count": 851
+   "count": 853
   },
   {
    "key": "all-10000",
    "cup": "all",
    "cp": 10000,
    "title": "Liga Máster",
-   "count": 409
+   "count": 410
   },
   {
    "key": "all-500",
@@ -164,21 +164,21 @@
    "cup": "mega",
    "cp": 1500,
    "title": "Mega Great League",
-   "count": 1217
+   "count": 1219
   },
   {
    "key": "mega-2500",
    "cup": "mega",
    "cp": 2500,
    "title": "Mega Ultra League",
-   "count": 914
+   "count": 916
   },
   {
    "key": "mega-10000",
    "cup": "mega",
    "cp": 10000,
    "title": "Mega Master League",
-   "count": 472
+   "count": 473
   },
   {
    "key": "laic2027gbl-1500",
@@ -260,6 +260,6 @@
  ],
  "warnings": [
   "El Game Master de PokeMiners no se actualiza desde 2026-08-28T07:35:50.208Z; los datos del juego podrían estar desactualizados.",
-  "10 especies liberadas de PvPoke sin plantilla en el Game Master (se usan datos de PvPoke)."
+  "12 especies liberadas de PvPoke sin plantilla en el Game Master (se usan datos de PvPoke)."
  ]
 }
