@@ -1,35 +1,35 @@
 {
  "schema": 1,
- "builtAt": "2026-11-17T20:52:17.989Z",
- "dataVersion": "dee0c0bd1ea52426",
+ "builtAt": "2026-11-20T20:10:17.796Z",
+ "dataVersion": "fc577f2ea75f6bea",
  "sources": [
   {
    "name": "PvPoke",
    "url": "https://github.com/pvpoke/pvpoke",
    "license": "MIT",
-   "version": "85ff1d738070cc3a",
-   "fetchedAt": "2026-11-17T20:52:12.081Z"
+   "version": "b44e20416efc9190",
+   "fetchedAt": "2026-11-20T20:10:11.828Z"
   },
   {
    "name": "PokeMiners game_masters",
    "url": "https://github.com/PokeMiners/game_masters",
    "license": "Datos del juego (sin licencia explícita)",
    "version": "2026-08-28T07:35:50.208Z",
-   "fetchedAt": "2026-11-17T20:52:12.081Z"
+   "fetchedAt": "2026-11-20T20:10:11.828Z"
   },
   {
    "name": "PokeAPI",
    "url": "https://github.com/PokeAPI/pokeapi",
    "license": "BSD-3-Clause (datos)",
    "version": "master",
-   "fetchedAt": "2026-11-17T20:52:12.081Z"
+   "fetchedAt": "2026-11-20T20:10:11.828Z"
   },
   {
    "name": "PokeAPI sprites",
    "url": "https://github.com/PokeAPI/sprites",
    "license": "CC0 (sprites; por URL)",
    "version": "master",
-   "fetchedAt": "2026-11-17T20:52:12.081Z"
+   "fetchedAt": "2026-11-20T20:10:11.828Z"
   }
  ],
  "files": {
@@ -38,8 +38,8 @@
    "bytes": 3604
   },
   "species.json": {
-   "hash": "b53b0750b02bbbd1",
-   "bytes": 845501
+   "hash": "ac864a22f7279022",
+   "bytes": 845532
   },
   "moves.json": {
    "hash": "6ca3aa1331194aac",
@@ -58,32 +58,32 @@
    "bytes": 25225
   },
   "rankings/all-1500.json": {
-   "hash": "eebefa4c7cbd1b1d",
-   "bytes": 334387
+   "hash": "2b3e6c72ae6eda26",
+   "bytes": 334438
   },
   "rankings/all-2500.json": {
-   "hash": "f199011dd0f21644",
-   "bytes": 262042
+   "hash": "664ae637489cf291",
+   "bytes": 262063
   },
   "rankings/all-10000.json": {
-   "hash": "eceebc54dec8fc25",
-   "bytes": 147047
+   "hash": "6ce956a0150cf413",
+   "bytes": 147036
   },
   "rankings/all-500.json": {
    "hash": "7ed8331a23735159",
    "bytes": 73718
   },
   "rankings/mega-1500.json": {
-   "hash": "e2cc4c72b45c8465",
-   "bytes": 352356
+   "hash": "357e7094cc621755",
+   "bytes": 352420
   },
   "rankings/mega-2500.json": {
-   "hash": "204ae8659b172289",
-   "bytes": 280347
+   "hash": "86c1edaae0c01137",
+   "bytes": 280365
   },
   "rankings/mega-10000.json": {
-   "hash": "8cecdc87b6edf585",
-   "bytes": 168058
+   "hash": "c61324705cebff3a",
+   "bytes": 168093
   },
   "rankings/laic2027gbl-1500.json": {
    "hash": "f740edde7e036531",
