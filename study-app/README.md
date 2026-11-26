@@ -10,6 +10,8 @@ Todo (materias, archivos y resultados) se guarda **solo en el navegador** del di
 
 ## Formas de usarla
 
+**Publicada en:** https://tuctuc26.github.io/go-vault/estudio/ (rama `gh-pages`; para actualizarla, copia `dist/index.html` a `estudio/index.html` en esa rama).
+
 ### 1. Enlace de claude.ai (lo más fácil, sin Claude Pro)
 La app está publicada como artifact en claude.ai. Al compartir el enlace, ella entra con **su propia cuenta de Claude (sirve la gratuita)** y cada generación usa su límite de mensajes. Arriba a la derecha debe decir **"Claude · tu cuenta"**. La primera vez, claude.ai le pide permiso para que la página use Claude.
 
