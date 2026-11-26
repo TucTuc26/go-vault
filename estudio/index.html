@@ -1,0 +1,1058 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Cuaderno de Estudio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+<style>
+/* Layout: one narrow study column (max 760px) with a sticky header; notebook-ink palette with a highlighter accent. */
+:root {
+  --bg: #F3F5FB;
+  --surface: #FFFFFF;
+  --surface-2: #E9ECF7;
+  --ink: #1A2141;
+  --muted: #555E82;
+  --line: #D6DBEC;
+  --accent: #2E3BB5;
+  --accent-fg: #FFFFFF;
+  --hl: #FFE14D;
+  --hl-ink: #1A2141;
+  --good: #187A50;
+  --good-bg: #DDF3E8;
+  --bad: #B42D42;
+  --bad-bg: #FBE3E7;
+  --warn-bg: #FFF4C7;
+  --shadow: 0 1px 2px rgba(26,33,65,.06), 0 6px 20px rgba(26,33,65,.06);
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1222; --surface: #161B31; --surface-2: #1E2440; --ink: #E7E9F6; --muted: #A3AACB; --line: #2B3255;
+    --accent: #919BFF; --accent-fg: #0E1222; --hl: #E3C83E; --hl-ink: #0E1222;
+    --good: #5ACF97; --good-bg: #14352A; --bad: #F27D8C; --bad-bg: #3A1820; --warn-bg: #3A3216;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1222; --surface: #161B31; --surface-2: #1E2440; --ink: #E7E9F6; --muted: #A3AACB; --line: #2B3255;
+  --accent: #919BFF; --accent-fg: #0E1222; --hl: #E3C83E; --hl-ink: #0E1222;
+  --good: #5ACF97; --good-bg: #14352A; --bad: #F27D8C; --bad-bg: #3A1820; --warn-bg: #3A3216;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: 1.35rem; font-weight: 700; letter-spacing: -.01em; }
+h3 { font-size: 1.08rem; font-weight: 700; }
+p { margin: 0; }
+.mark { background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%); padding: 0 .1em; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.topbar .wrap { display: flex; align-items: center; gap: 12px; padding-block: 10px; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; background: none; border: 0; padding: 4px 0; cursor: pointer; min-width: 0; white-space: nowrap; }
+.brand span { overflow: hidden; text-overflow: ellipsis; }
+.brand .short { display: none; }
+#engine-chip { white-space: nowrap; flex: none; }
+.brand svg { flex: none; }
+.spacer { flex: 1; }
+main.wrap { padding-block: 20px 64px; display: grid; gap: 20px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 700; text-decoration: none; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; border-color: transparent; }
+.btn.ghost:hover { background: var(--surface-2); }
+.btn.danger { color: var(--bad); }
+.btn.danger.armed { background: var(--bad); color: #fff; border-color: var(--bad); }
+.btn.small { min-height: 36px; padding: 0 12px; font-size: .9rem; border-radius: 10px; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: .88rem; font-weight: 700; cursor: pointer; }
+.chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.chip.on .dot { background: var(--good); }
+.chip.off .dot { background: var(--bad); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; box-shadow: var(--shadow); min-width: 0; }
+.stack { display: grid; gap: 12px; min-width: 0; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.muted { color: var(--muted); }
+.small-text { font-size: .9rem; }
+.eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--muted); }
+.badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--hl); color: var(--hl-ink); }
+
+.hero { display: grid; gap: 10px; }
+.hero p { max-width: 60ch; color: var(--muted); }
+
+.subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.subject { text-align: left; cursor: pointer; display: grid; gap: 10px; border-top: 6px solid var(--sc, var(--accent)); }
+.subject:hover { border-color: var(--accent); border-top-color: var(--sc, var(--accent)); }
+.counts { display: flex; gap: 14px; flex-wrap: wrap; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.counts b { color: var(--ink); }
+.new-subject { border-style: dashed; box-shadow: none; display: grid; gap: 10px; }
+
+.tabs { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.tab { flex: none; min-height: 44px; padding: 0 14px; background: none; border: 0; border-bottom: 3px solid transparent; font-weight: 700; color: var(--muted); cursor: pointer; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--hl); }
+.tab .n { font-variant-numeric: tabular-nums; font-weight: 400; margin-left: 4px; }
+
+.drop { border: 2px dashed var(--line); border-radius: var(--r); padding: 22px 16px; text-align: center; display: grid; gap: 8px; justify-items: center; background: var(--surface); cursor: pointer; }
+.drop.over { border-color: var(--accent); background: var(--surface-2); }
+.drop input { display: none; }
+textarea, input[type="text"], input[type="password"], select { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); }
+textarea { min-height: 140px; resize: vertical; }
+label.field { display: grid; gap: 6px; font-weight: 700; font-size: .92rem; }
+label.field .hint { font-weight: 400; color: var(--muted); }
+
+.mat { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.mat:last-child { border-bottom: 0; }
+.mat .info { flex: 1; min-width: 0; }
+.mat .name { font-weight: 700; overflow-wrap: anywhere; }
+.mat input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); flex: none; }
+.kind { flex: none; width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--surface-2); font-size: .72rem; font-weight: 700; color: var(--muted); }
+
+.gen { display: grid; gap: 14px; background: var(--surface-2); border: 0; box-shadow: none; }
+.gen .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.notice { padding: 12px 14px; border-radius: 12px; background: var(--warn-bg); font-size: .92rem; }
+.notice.err { background: var(--bad-bg); color: var(--ink); }
+.working { display: flex; gap: 12px; align-items: center; }
+.spin { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--accent); animation: spin .9s linear infinite; flex: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.item { display: flex; gap: 12px; align-items: center; }
+.item .info { flex: 1; min-width: 0; }
+.item .title { font-weight: 700; overflow-wrap: anywhere; }
+
+.guide { display: grid; gap: 22px; }
+.guide section { display: grid; gap: 8px; }
+.guide ul, .guide ol { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.guide .example { border-left: 4px solid var(--hl); padding: 6px 12px; background: var(--surface-2); border-radius: 0 10px 10px 0; }
+.glossary { display: grid; gap: 10px; margin: 0; }
+.glossary div { display: grid; gap: 2px; }
+.glossary dt { font-weight: 700; }
+.glossary dd { margin: 0; color: var(--muted); }
+.topic-n { font-family: var(--font-display); color: var(--muted); font-weight: 700; margin-right: 6px; font-variant-numeric: tabular-nums; }
+
+.progress { height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.progress > div { height: 100%; background: var(--accent); transition: width .25s; }
+.q { font-size: 1.2rem; font-weight: 700; font-family: var(--font-display); line-height: 1.3; }
+.opt { width: 100%; text-align: left; min-height: 52px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); cursor: pointer; display: flex; gap: 12px; align-items: flex-start; }
+.opt:hover:not([disabled]) { border-color: var(--accent); }
+.opt .letter { flex: none; width: 28px; height: 28px; border-radius: 8px; background: var(--surface-2); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+.opt.right { border-color: var(--good); background: var(--good-bg); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.opt[disabled] { cursor: default; }
+.explain { padding: 12px 14px; border-radius: 12px; background: var(--surface-2); }
+.score { font-family: var(--font-display); font-size: 3rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+
+.flash-wrap { perspective: 1200px; }
+.flash { position: relative; width: 100%; min-height: 260px; border: 0; padding: 0; background: none; cursor: pointer; transform-style: preserve-3d; transition: transform .45s; display: block; }
+.flash.flipped { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); display: grid; place-items: center; padding: 28px 22px; text-align: center; font-size: 1.15rem; overflow-wrap: anywhere; overflow-y: auto; }
+.face.back { transform: rotateY(180deg); background: var(--surface-2); }
+.face .tag { position: absolute; top: 12px; left: 14px; }
+.face .txt { white-space: pre-wrap; }
+.boxes { display: flex; gap: 6px; flex-wrap: wrap; font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+dialog { border: 1px solid var(--line); border-radius: 18px; padding: 0; background: var(--surface); color: var(--ink); width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+dialog::backdrop { background: rgba(10, 14, 30, .55); }
+dialog .inner { padding: 20px; display: grid; gap: 16px; }
+.radio { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.radio input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.radio.disabled { opacity: .55; cursor: not-allowed; }
+
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 12px; font-weight: 700; z-index: 20; max-width: calc(100vw - 32px); box-shadow: var(--shadow); }
+.empty { text-align: center; padding: 28px 12px; color: var(--muted); display: grid; gap: 6px; justify-items: center; }
+@media (prefers-reduced-motion: reduce) { .flash, .progress > div { transition: none; } .spin { animation-duration: 2.5s; } }
+@media (max-width: 480px) { h1 { font-size: 1.6rem; } .card { padding: 14px; } .brand .long { display: none; } .brand .short { display: inline; } }
+</style>
+
+<header class="topbar">
+  <div class="wrap">
+    <button class="brand" id="brand" type="button" aria-label="Ir a mis materias">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="2" width="18" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 9h10M7 13h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15 18.5l7-7" stroke="var(--hl)" stroke-width="5" stroke-linecap="round"/></svg>
+      <span class="long">Cuaderno de Estudio</span><span class="short">Cuaderno</span>
+    </button>
+    <span class="spacer"></span>
+    <button class="chip" id="engine-chip" type="button"><span class="dot"></span><span id="engine-label">Conectando…</span></button>
+  </div>
+</header>
+<main class="wrap" id="app" aria-live="polite"></main>
+<dialog id="settings"></dialog>
+
+<script>
+(() => {
+"use strict";
+
+/* ---------- small helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-5);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k === "text") el.textContent = v;
+    else if (k === "style") el.setAttribute("style", v);
+    else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+    else if (k === "value") el.value = v;
+    else if (k === "checked") el.checked = !!v;
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of kids.flat(Infinity)) if (c != null && c !== false) el.append(c instanceof Node ? c : String(c));
+  return el;
+}
+const fmtDate = (t) => new Date(t).toLocaleDateString("es", { day: "numeric", month: "short" });
+const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+let toastTimer;
+function toast(msg) {
+  document.querySelectorAll(".toast").forEach((t) => t.remove());
+  const t = h("div", { class: "toast", role: "status", text: msg });
+  document.body.append(t);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.remove(), 3200);
+}
+function confirmBtn(label, onConfirm, cls = "btn small danger") {
+  const b = h("button", { class: cls, type: "button", text: label });
+  let armed = false, timer;
+  b.addEventListener("click", () => {
+    if (!armed) { armed = true; b.classList.add("armed"); b.textContent = "¿Seguro? Toca otra vez"; timer = setTimeout(() => { armed = false; b.classList.remove("armed"); b.textContent = label; }, 3500); return; }
+    clearTimeout(timer); onConfirm();
+  });
+  return b;
+}
+const ls = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    if (document.querySelector(`script[src="${src}"]`)) return res();
+    const s = document.createElement("script");
+    s.src = src; s.onload = res; s.onerror = () => rej(new Error("No se pudo cargar " + src));
+    document.head.append(s);
+  });
+}
+function blobToBase64(blob) {
+  return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1]); r.onerror = rej; r.readAsDataURL(blob); });
+}
+
+/* ---------- storage (IndexedDB, per device) ---------- */
+const DB = {
+  db: null, ok: false, mem: { subjects: new Map(), blobs: new Map() },
+  async open() {
+    try {
+      this.db = await Promise.race([
+        new Promise((res, rej) => {
+          const r = indexedDB.open("cuaderno-estudio", 1);
+          r.onupgradeneeded = () => { const d = r.result; d.createObjectStore("subjects", { keyPath: "id" }); d.createObjectStore("blobs"); };
+          r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+        }),
+        new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 4000)),
+      ]);
+      this.ok = true;
+    } catch { this.ok = false; }
+  },
+  req(store, mode, fn) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, mode); const r = fn(tx.objectStore(store));
+      tx.oncomplete = () => res(r && r.result); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error);
+    });
+  },
+  async allSubjects() { if (!this.ok) return [...this.mem.subjects.values()]; try { return await this.req("subjects", "readonly", (s) => s.getAll()); } catch { return []; } },
+  async putSubject(sub) { const copy = JSON.parse(JSON.stringify(sub)); if (!this.ok) { this.mem.subjects.set(sub.id, copy); return; } try { await this.req("subjects", "readwrite", (s) => s.put(copy)); } catch (e) { toast("No se pudo guardar: " + (e && e.name === "QuotaExceededError" ? "el navegador se quedó sin espacio" : "error del navegador")); } },
+  async delSubject(id) { if (!this.ok) { this.mem.subjects.delete(id); return; } try { await this.req("subjects", "readwrite", (s) => s.delete(id)); } catch {} },
+  async putBlob(id, blob) { if (!this.ok) { this.mem.blobs.set(id, blob); return; } try { await this.req("blobs", "readwrite", (s) => s.put(blob, id)); } catch {} },
+  async getBlob(id) { if (!this.ok) return this.mem.blobs.get(id); try { return await this.req("blobs", "readonly", (s) => s.get(id)); } catch { return null; } },
+  async delBlob(id) { if (!this.ok) { this.mem.blobs.delete(id); return; } try { await this.req("blobs", "readwrite", (s) => s.delete(id)); } catch {} },
+  async clear() { if (!this.ok) { this.mem.subjects.clear(); this.mem.blobs.clear(); return; } try { await this.req("subjects", "readwrite", (s) => s.clear()); await this.req("blobs", "readwrite", (s) => s.clear()); } catch {} },
+};
+
+/* ---------- AI engines ---------- */
+const MAX_CHARS = 150000;
+const CLAUDE_FALLBACK_MODELS = ["claude-opus-5-5", "claude-opus-5", "claude-fable-5-2", "claude-fable-5-1", "claude-sonnet-5-5"];
+const settings = Object.assign({ provider: "", geminiKey: "", geminiModel: "gemini-flash-latest", anthropicKey: "", anthropicModel: "claude-opus-5-5" }, ls.get("cuaderno-settings", {}));
+const saveSettings = () => ls.set("cuaderno-settings", settings);
+const IS_STANDALONE = !(window.claude && typeof window.claude.use === "function");
+// A setup link like  https://…/#gemini=KEY  stores the key on this device and is then removed from the address bar.
+let importedFromLink = false;
+try {
+  const m = location.hash.match(/^#(gemini|claude)=([A-Za-z0-9_.\-]{20,200})$/);
+  if (m && IS_STANDALONE) {
+    if (m[1] === "gemini") { settings.geminiKey = m[2]; settings.provider = "gemini"; }
+    else { settings.anthropicKey = m[2]; settings.provider = "anthropic"; }
+    saveSettings(); importedFromLink = true;
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+} catch {}
+
+const SAMPLE_ERRORS = {
+  not_granted: "No se dio permiso para usar Claude en esta página. Puedes usar una clave propia en Ajustes.",
+  sampling_disabled: "Claude no está disponible para esta cuenta. Puedes usar una clave propia en Ajustes.",
+  rate_limited: "Llegaste al límite de uso de Claude por ahora. Espera un rato o usa una clave propia en Ajustes.",
+  session_expired: "Tu sesión de Claude expiró. Vuelve a iniciar sesión en claude.ai.",
+  prompt_too_large: "El material es demasiado largo. Desmarca algunos archivos e inténtalo de nuevo.",
+  refused: "Claude no quiso procesar este material. Prueba con otro archivo o con otro enfoque.",
+  empty_completion: "Claude no devolvió nada. Prueba con menos material o una cantidad menor.",
+  invalid_json: "La respuesta llegó incompleta. Pide menos preguntas o tarjetas y vuelve a intentar.",
+  image_rejected: "Una de las imágenes no se pudo leer. Prueba con otra foto.",
+  images_unavailable: "Esta vista no puede enviar imágenes a Claude. Se usó solo el texto.",
+};
+
+const AI = {
+  sample: null, limits: null, checked: false,
+  async init() {
+    if (window.claude && typeof window.claude.use === "function") {
+      try { this.sample = await window.claude.use("sample"); } catch { this.sample = null; }
+      if (this.sample) { try { this.limits = await this.sample.limits(); } catch { this.limits = null; } }
+    }
+    this.checked = true;
+    if (!settings.provider || (settings.provider === "claude" && !this.sample)) settings.provider = this.sample ? "claude" : (settings.anthropicKey ? "anthropic" : "gemini");
+    updateEngineChip();
+  },
+  provider() { return settings.provider; },
+  ready() {
+    const p = settings.provider;
+    if (p === "claude") return !!this.sample;
+    if (p === "gemini") return !!settings.geminiKey.trim();
+    if (p === "anthropic") return !!settings.anthropicKey.trim();
+    return false;
+  },
+  label() {
+    if (!this.checked) return "Conectando…";
+    const p = settings.provider;
+    if (p === "claude") return this.sample ? "Claude · tu cuenta" : "Configurar motor";
+    if (p === "gemini") return settings.geminiKey ? "Gemini · tu clave" : "Configurar motor";
+    if (p === "anthropic") return settings.anthropicKey ? "Claude · tu clave" : "Configurar motor";
+    return "Configurar motor";
+  },
+  maxImages() {
+    const p = settings.provider;
+    if (p === "claude") return (this.limits && this.limits.images && this.limits.images.maxCount) || 0;
+    if (p === "gemini") return 16;
+    if (p === "anthropic") return 20;
+    return 0;
+  },
+  async json(prompt, images, signal) {
+    const p = settings.provider;
+    if (p === "claude") {
+      const opts = { signal, cache: false };
+      if (images.length) opts.images = images;
+      try { return await this.sample.json(prompt, opts); }
+      catch (e) {
+        if (e && e.code === "cancelled") throw { cancelled: true };
+        throw new Error((e && SAMPLE_ERRORS[e.code]) || "No se pudo conectar con Claude. Intenta de nuevo en un momento.");
+      }
+    }
+    let text;
+    try {
+      text = p === "gemini" ? await callGemini(prompt, images, signal) : await callAnthropic(prompt, images, signal);
+    } catch (e) {
+      if (e && e.name === "AbortError") throw { cancelled: true };
+      throw e;
+    }
+    const val = parseLooseJSON(text);
+    if (val === undefined) throw new Error("La respuesta llegó en un formato inesperado. Vuelve a intentar con una cantidad menor.");
+    return val;
+  },
+};
+
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
+// When the configured model is gone (Google retires model names), pick the newest "flash" model the key can use.
+async function pickGeminiModel(signal) {
+  try {
+    const r = await fetch(`${GEMINI_BASE}/models?pageSize=200`, { headers: { "x-goog-api-key": settings.geminiKey.trim() }, signal });
+    const d = await r.json();
+    const names = (d.models || []).filter((m) => (m.supportedGenerationMethods || []).includes("generateContent")).map((m) => String(m.name).replace(/^models\//, ""));
+    const score = (n) => (/flash/.test(n) ? 10 : /pro/.test(n) ? 5 : 0) - (/lite|image|tts|live|audio|embed|exp|thinking|robotics|computer/.test(n) ? 20 : 0) - (/preview/.test(n) ? 3 : 0);
+    const ver = (n) => parseFloat((n.match(/(\d+(?:\.\d+)?)/) || [0, 0])[1]);
+    names.sort((a, b) => score(b) - score(a) || ver(b) - ver(a));
+    return names.length && score(names[0]) > 0 ? names[0] : "";
+  } catch (e) { if (e && e.name === "AbortError") throw e; return ""; }
+}
+async function callGemini(prompt, images, signal) {
+  const parts = [];
+  for (const b of images) parts.push({ inline_data: { mime_type: b.type || "image/jpeg", data: await blobToBase64(b) } });
+  parts.push({ text: prompt });
+  let model = (settings.geminiModel || "gemini-flash-latest").trim();
+  const send = async (mdl) => {
+    try {
+      return await fetch(`${GEMINI_BASE}/models/${encodeURIComponent(mdl)}:generateContent`, {
+        method: "POST", signal,
+        headers: { "content-type": "application/json", "x-goog-api-key": settings.geminiKey.trim() },
+        body: JSON.stringify({ contents: [{ role: "user", parts }], generationConfig: { responseMimeType: "application/json" } }),
+      });
+    } catch (e) { if (e.name === "AbortError") throw e; throw new Error("No hay conexión con Gemini. Revisa tu internet."); }
+  };
+  let res = await send(model);
+  if (res.status === 404) {
+    const alt = await pickGeminiModel(signal);
+    if (alt && alt !== model) { model = alt; settings.geminiModel = alt; saveSettings(); res = await send(model); }
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const msg = (data.error && data.error.message) || res.statusText;
+    if (res.status === 400 && /API key/i.test(msg)) throw new Error("La clave de Gemini no es válida. Revísala en Ajustes.");
+    if (res.status === 429) throw new Error("Gemini dice que se alcanzó el límite gratis por ahora. Espera un minuto y vuelve a intentar.");
+    if (res.status === 404) throw new Error(`El modelo «${model}» no existe para tu clave. Cambia el modelo en Ajustes.`);
+    throw new Error("Gemini respondió con un error: " + msg);
+  }
+  if (data.promptFeedback && data.promptFeedback.blockReason) throw new Error("Gemini bloqueó este material. Prueba con otro archivo.");
+  const cand = data.candidates && data.candidates[0];
+  const text = cand && cand.content && (cand.content.parts || []).map((x) => x.text || "").join("");
+  if (!text) throw new Error("Gemini no devolvió texto. Intenta de nuevo con menos material.");
+  if (cand.finishReason === "MAX_TOKENS") throw new Error("La respuesta se cortó por larga. Pide menos preguntas o tarjetas.");
+  return text;
+}
+
+async function callAnthropic(prompt, images, signal) {
+  const content = [];
+  for (const b of images) content.push({ type: "image", source: { type: "base64", media_type: b.type || "image/jpeg", data: await blobToBase64(b) } });
+  content.push({ type: "text", text: prompt });
+  const model = (settings.anthropicModel || "claude-opus-5-5").trim();
+  const body = { model, max_tokens: 16000, messages: [{ role: "user", content }] };
+  const headers = { "content-type": "application/json", "x-api-key": settings.anthropicKey.trim(), "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" };
+  if (CLAUDE_FALLBACK_MODELS.includes(model)) { headers["anthropic-beta"] = "server-side-fallback-2026-07-01"; body.fallbacks = "default"; }
+  let res;
+  try { res = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", signal, headers, body: JSON.stringify(body) }); }
+  catch (e) { if (e.name === "AbortError") throw e; throw new Error("No hay conexión con la API de Claude. Revisa tu internet."); }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const msg = (data.error && data.error.message) || res.statusText;
+    if (res.status === 401) throw new Error("La clave de la API de Claude no es válida. Revísala en Ajustes.");
+    if (res.status === 429) throw new Error("Se alcanzó el límite de la API por ahora. Espera un minuto.");
+    if (res.status === 400 && /credit|billing/i.test(msg)) throw new Error("La cuenta de la API no tiene saldo. Recárgala en console.anthropic.com.");
+    throw new Error("La API de Claude respondió con un error: " + msg);
+  }
+  if (data.stop_reason === "refusal") throw new Error("Claude no quiso procesar este material. Prueba con otro archivo.");
+  if (data.stop_reason === "max_tokens") throw new Error("La respuesta se cortó por larga. Pide menos preguntas o tarjetas.");
+  const text = (data.content || []).filter((b) => b.type === "text").map((b) => b.text).join("");
+  if (!text) throw new Error("La API no devolvió texto. Intenta de nuevo.");
+  return text;
+}
+
+function parseLooseJSON(text) {
+  const t = String(text || "").trim();
+  try { return JSON.parse(t); } catch {}
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) { try { return JSON.parse(fence[1]); } catch {} }
+  const a = Math.min(...["{", "["].map((c) => { const i = t.indexOf(c); return i < 0 ? Infinity : i; }));
+  const z = Math.max(t.lastIndexOf("}"), t.lastIndexOf("]"));
+  if (a !== Infinity && z > a) { try { return JSON.parse(t.slice(a, z + 1)); } catch {} }
+  return undefined;
+}
+
+/* ---------- material extraction ---------- */
+const LIBS = {
+  pdf: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",
+  pdfWorker: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",
+  jszip: "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js",
+  mammoth: "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js",
+};
+
+async function downscale(source, max = 1568) {
+  let bmp;
+  try { bmp = await createImageBitmap(source); }
+  catch {
+    bmp = await new Promise((res, rej) => { const img = new Image(); img.onload = () => res(img); img.onerror = rej; img.src = URL.createObjectURL(source); });
+  }
+  const w = bmp.width, hgt = bmp.height, s = Math.min(1, max / Math.max(w, hgt));
+  const c = document.createElement("canvas"); c.width = Math.round(w * s); c.height = Math.round(hgt * s);
+  const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(bmp, 0, 0, c.width, c.height);
+  return await new Promise((res) => c.toBlob(res, "image/jpeg", 0.85));
+}
+
+async function extractPdf(file) {
+  await loadScript(LIBS.pdfWorker); await loadScript(LIBS.pdf);
+  const lib = window.pdfjsLib; lib.GlobalWorkerOptions.workerSrc = LIBS.pdfWorker;
+  const pdf = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+  const pages = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const tc = await (await pdf.getPage(i)).getTextContent();
+    let s = ""; for (const it of tc.items) s += (it.str || "") + (it.hasEOL ? "\n" : " ");
+    pages.push(s.replace(/[ \t]+/g, " ").trim());
+  }
+  const text = pages.map((p, i) => `[Página ${i + 1}]\n${p}`).join("\n\n");
+  const real = pages.join("").replace(/\s/g, "").length;
+  if (real >= 40 * pdf.numPages || real > 4000) return { kind: "text", text };
+  // Looks scanned: render pages as images.
+  const blobs = [];
+  for (let i = 1; i <= Math.min(pdf.numPages, 20); i++) {
+    const page = await pdf.getPage(i); const vp0 = page.getViewport({ scale: 1 });
+    const vp = page.getViewport({ scale: Math.min(2, 1400 / vp0.width) });
+    const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+    await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+    blobs.push(await new Promise((res) => c.toBlob(res, "image/jpeg", 0.8)));
+  }
+  return { kind: "images", blobs, note: pdf.numPages > 20 ? `PDF escaneado: se guardaron las primeras 20 de ${pdf.numPages} páginas como imágenes.` : "PDF escaneado: se guardó como imágenes." };
+}
+async function extractDocx(file) {
+  await loadScript(LIBS.mammoth);
+  const r = await window.mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+  return { kind: "text", text: r.value };
+}
+async function extractPptx(file) {
+  await loadScript(LIBS.jszip);
+  const zip = await window.JSZip.loadAsync(await file.arrayBuffer());
+  const slides = Object.keys(zip.files).filter((n) => /^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a, b) => parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]));
+  const notes = Object.keys(zip.files).filter((n) => /^ppt\/notesSlides\/notesSlide\d+\.xml$/.test(n));
+  const read = async (name) => {
+    const xml = new DOMParser().parseFromString(await zip.file(name).async("string"), "application/xml");
+    return [...xml.getElementsByTagName("a:p")].map((p) => [...p.getElementsByTagName("a:t")].map((t) => t.textContent).join("")).filter(Boolean).join("\n");
+  };
+  const out = [];
+  for (let i = 0; i < slides.length; i++) {
+    let s = `[Diapositiva ${i + 1}]\n` + (await read(slides[i]));
+    const nn = notes.find((n) => n.endsWith(`notesSlide${slides[i].match(/\d+/)[0]}.xml`));
+    if (nn) { const t = (await read(nn)).trim(); if (t) s += "\nNotas: " + t; }
+    out.push(s);
+  }
+  return { kind: "text", text: out.join("\n\n") };
+}
+async function extractFile(file) {
+  const n = file.name.toLowerCase();
+  if (n.endsWith(".pdf") || file.type === "application/pdf") return extractPdf(file);
+  if (n.endsWith(".docx")) return extractDocx(file);
+  if (n.endsWith(".pptx")) return extractPptx(file);
+  if (file.type.startsWith("image/") || /\.(jpe?g|png|webp|gif|heic)$/.test(n)) return { kind: "images", blobs: [await downscale(file)] };
+  if (/\.(txt|md|csv|tsv|json|html?|rtf|tex)$/.test(n) || file.type.startsWith("text/")) return { kind: "text", text: await file.text() };
+  if (/\.(doc|ppt|xls)$/.test(n)) throw new Error(`«${file.name}» es un formato antiguo de Office. Guárdalo como .docx o .pptx (o PDF) y súbelo otra vez.`);
+  throw new Error(`No sé leer «${file.name}». Usa PDF, Word (.docx), PowerPoint (.pptx), texto o fotos.`);
+}
+
+/* ---------- prompts ---------- */
+function materialBundle(sub) {
+  const inc = sub.materials.filter((m) => m.include);
+  let text = "", total = 0;
+  for (const m of inc.filter((m) => m.kind === "text")) total += m.text.length;
+  for (const m of inc.filter((m) => m.kind === "text")) {
+    const chunk = `<material nombre="${m.name.replace(/"/g, "'")}">\n${m.text}\n</material>\n\n`;
+    if (text.length + chunk.length > MAX_CHARS) { text += chunk.slice(0, Math.max(0, MAX_CHARS - text.length)) + "\n</material>\n"; break; }
+    text += chunk;
+  }
+  const imageIds = inc.filter((m) => m.kind === "images").flatMap((m) => m.imageIds);
+  return { text, truncated: total > MAX_CHARS, total, imageIds, count: inc.length };
+}
+function basePrompt(sub, bundle, focus, nImages) {
+  return [
+    `Eres un tutor experto y paciente. Vas a preparar material de estudio para una estudiante universitaria a partir de sus apuntes de la materia «${sub.name}».`,
+    `Reglas:`,
+    `- Usa SOLO la información del material. No inventes datos, fechas ni fórmulas que no estén ahí.`,
+    `- Escribe en el mismo idioma del material (si hay duda, en español), con lenguaje claro.`,
+    `- Si el material incluye imágenes (fotos de apuntes, diapositivas o páginas), léelas con cuidado.`,
+    focus ? `- Enfócate especialmente en: ${focus}` : "",
+    nImages ? `\nSe adjuntan ${nImages} imagen(es) del material.` : "",
+    bundle.text ? `\nMATERIAL:\n${bundle.text}` : "",
+  ].filter(Boolean).join("\n");
+}
+const PROMPTS = {
+  guide: () => `
+Crea una guía de estudio completa y ordenada. Responde SOLO con un objeto JSON con esta forma exacta:
+{"titulo": "string", "resumen": "3 a 6 oraciones con la idea general", "temas": [{"titulo": "string", "explicacion": "párrafo claro", "puntos_clave": ["string"], "ejemplo": "ejemplo concreto o cadena vacía"}], "glosario": [{"termino": "string", "definicion": "string"}], "preguntas_de_repaso": ["string"], "consejos": ["consejo breve para estudiar este tema"]}
+Incluye todos los temas importantes del material, en orden lógico.`,
+  quiz: (o) => `
+Crea un quiz de ${o.count} preguntas de dificultad ${o.difficulty}. Mezcla preguntas de opción múltiple (4 opciones, solo una correcta) y algunas de verdadero o falso (opciones ["Verdadero", "Falso"]). Cubre distintos temas del material; evita preguntas triviales; las opciones incorrectas deben ser creíbles. Varía la posición de la respuesta correcta.
+Responde SOLO con un objeto JSON con esta forma exacta:
+{"titulo": "string corto", "preguntas": [{"pregunta": "string", "opciones": ["string"], "correcta": 0, "explicacion": "por qué es correcta, citando la idea del material"}]}
+"correcta" es el índice (empezando en 0) de la opción correcta.`,
+  deck: (o) => `
+Crea ${o.count} tarjetas de memoria (flashcards) para repasar conceptos, definiciones, fórmulas, fechas y relaciones causa-efecto del material. El frente es una pregunta o concepto corto; el reverso, la respuesta precisa y breve (máximo 2 oraciones).
+Responde SOLO con un objeto JSON con esta forma exacta:
+{"titulo": "string corto", "tarjetas": [{"frente": "string", "reverso": "string"}]}`,
+};
+function validate(kind, v) {
+  const S = (x) => (typeof x === "string" ? x.trim() : x == null ? "" : String(x));
+  const A = (x) => (Array.isArray(x) ? x : []);
+  if (!v || typeof v !== "object") throw new Error("La respuesta no tiene el formato esperado. Intenta otra vez.");
+  if (kind === "guide") {
+    const g = { titulo: S(v.titulo) || "Guía de estudio", resumen: S(v.resumen), temas: A(v.temas).map((t) => ({ titulo: S(t && t.titulo), explicacion: S(t && t.explicacion), puntos_clave: A(t && t.puntos_clave).map(S).filter(Boolean), ejemplo: S(t && t.ejemplo) })).filter((t) => t.titulo || t.explicacion), glosario: A(v.glosario).map((x) => ({ termino: S(x && x.termino), definicion: S(x && x.definicion) })).filter((x) => x.termino), preguntas_de_repaso: A(v.preguntas_de_repaso).map(S).filter(Boolean), consejos: A(v.consejos).map(S).filter(Boolean) };
+    if (!g.temas.length && !g.resumen) throw new Error("La guía llegó vacía. Revisa que el material tenga texto legible.");
+    return g;
+  }
+  if (kind === "quiz") {
+    const qs = A(v.preguntas).map((q) => { const opciones = A(q && q.opciones).map(S).filter(Boolean); let c = Number(q && q.correcta); if (!(c >= 0 && c < opciones.length)) c = -1; return { pregunta: S(q && q.pregunta), opciones, correcta: c, explicacion: S(q && q.explicacion) }; }).filter((q) => q.pregunta && q.opciones.length >= 2 && q.correcta >= 0);
+    if (!qs.length) throw new Error("El quiz llegó vacío. Intenta otra vez.");
+    return { titulo: S(v.titulo) || "Quiz", preguntas: qs };
+  }
+  const cards = A(v.tarjetas).map((c) => ({ frente: S(c && c.frente), reverso: S(c && c.reverso) })).filter((c) => c.frente && c.reverso);
+  if (!cards.length) throw new Error("Las tarjetas llegaron vacías. Intenta otra vez.");
+  return { titulo: S(v.titulo) || "Tarjetas", tarjetas: cards };
+}
+
+/* ---------- example subject ---------- */
+function exampleSubject() {
+  const now = Date.now();
+  return {
+    id: uid(), name: "Ejemplo: Biología celular", color: "#2E9E6B", createdAt: now, example: true,
+    materials: [{ id: uid(), name: "Apuntes clase 3 (ejemplo).txt", kind: "text", include: true, addedAt: now, text: "La célula es la unidad básica de la vida. Las células procariotas (bacterias y arqueas) no tienen núcleo: su ADN está en una región llamada nucleoide. Las eucariotas (animales, plantas, hongos, protistas) tienen núcleo rodeado por una doble membrana.\n\nLa membrana plasmática es una bicapa de fosfolípidos con proteínas; es semipermeable y controla lo que entra y sale. La mitocondria produce ATP mediante la respiración celular y tiene su propio ADN. El cloroplasto, presente en plantas y algas, realiza la fotosíntesis. El retículo endoplasmático rugoso tiene ribosomas y sintetiza proteínas; el liso sintetiza lípidos. El aparato de Golgi modifica, empaqueta y distribuye proteínas. Los lisosomas contienen enzimas digestivas.\n\nLa pared celular (celulosa en plantas, quitina en hongos) da soporte; las células animales no la tienen. La teoría celular dice: todos los seres vivos están formados por células, la célula es la unidad funcional y toda célula proviene de otra célula." }],
+    guides: [{ id: uid(), createdAt: now, focus: "", data: { titulo: "La célula: estructura y organelos", resumen: "La célula es la unidad básica de la vida. Existen dos grandes tipos: procariotas, sin núcleo, y eucariotas, con núcleo. Cada organelo cumple una función: producir energía, fabricar proteínas, empaquetarlas o digerir sustancias.", temas: [
+      { titulo: "Procariotas y eucariotas", explicacion: "La diferencia principal es el núcleo. En las procariotas el ADN está libre en el nucleoide; en las eucariotas está dentro de un núcleo con doble membrana.", puntos_clave: ["Procariotas: bacterias y arqueas", "Eucariotas: animales, plantas, hongos y protistas", "Nucleoide = región del ADN en procariotas"], ejemplo: "Una bacteria E. coli es procariota; una neurona es eucariota." },
+      { titulo: "Organelos y sus funciones", explicacion: "Los organelos son compartimentos especializados dentro de la célula eucariota.", puntos_clave: ["Mitocondria: produce ATP (respiración celular) y tiene ADN propio", "Cloroplasto: fotosíntesis, solo en plantas y algas", "RE rugoso: proteínas · RE liso: lípidos", "Golgi: modifica, empaqueta y distribuye proteínas", "Lisosomas: enzimas digestivas"], ejemplo: "" },
+      { titulo: "Teoría celular", explicacion: "Resume tres ideas que aplican a todos los seres vivos.", puntos_clave: ["Todo ser vivo está formado por células", "La célula es la unidad funcional", "Toda célula proviene de otra célula"], ejemplo: "" } ],
+      glosario: [{ termino: "ATP", definicion: "Molécula que almacena y entrega energía en la célula." }, { termino: "Semipermeable", definicion: "Que deja pasar algunas sustancias y otras no." }, { termino: "Nucleoide", definicion: "Zona donde está el ADN en las células procariotas." }],
+      preguntas_de_repaso: ["¿Qué diferencia a una célula procariota de una eucariota?", "¿Por qué se dice que la mitocondria es la central energética?", "¿Qué organelos tienen las plantas que no tienen los animales?"],
+      consejos: ["Haz una tabla organelo → función y repásala con las tarjetas.", "Relaciona cada organelo con una fábrica: energía, producción, empaque, reciclaje."] } }],
+    quizzes: [{ id: uid(), createdAt: now, difficulty: "media", attempts: [], data: { titulo: "Quiz: la célula", preguntas: [
+      { pregunta: "¿Qué característica distingue a las células procariotas?", opciones: ["Tienen núcleo con doble membrana", "No tienen núcleo; su ADN está en el nucleoide", "Siempre tienen cloroplastos", "Tienen pared de quitina"], correcta: 1, explicacion: "Las procariotas no tienen núcleo: su ADN está en una región llamada nucleoide." },
+      { pregunta: "¿Qué organelo produce ATP mediante la respiración celular?", opciones: ["Aparato de Golgi", "Lisosoma", "Mitocondria", "Retículo endoplasmático liso"], correcta: 2, explicacion: "La mitocondria produce ATP y además tiene su propio ADN." },
+      { pregunta: "Las células animales tienen pared celular.", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: "La pared celular está en plantas (celulosa) y hongos (quitina), no en animales." },
+      { pregunta: "¿Cuál es la función principal del retículo endoplasmático liso?", opciones: ["Sintetizar lípidos", "Realizar la fotosíntesis", "Digerir sustancias", "Sintetizar proteínas con ribosomas"], correcta: 0, explicacion: "El RE liso sintetiza lípidos; el rugoso, con ribosomas, sintetiza proteínas." },
+      { pregunta: "Según la teoría celular, toda célula proviene de otra célula.", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: "Es uno de los tres postulados de la teoría celular." } ] } }],
+    decks: [{ id: uid(), createdAt: now, data: { titulo: "Organelos" }, cards: [
+      ["¿Qué es el nucleoide?", "La región donde está el ADN en las células procariotas."], ["Función de la mitocondria", "Producir ATP mediante la respiración celular."], ["Función del cloroplasto", "Realizar la fotosíntesis (plantas y algas)."], ["RE rugoso vs. RE liso", "Rugoso: sintetiza proteínas (tiene ribosomas). Liso: sintetiza lípidos."], ["Función del aparato de Golgi", "Modificar, empaquetar y distribuir proteínas."], ["¿Qué contienen los lisosomas?", "Enzimas digestivas."], ["Pared celular de plantas y de hongos", "Plantas: celulosa. Hongos: quitina."], ["Postulados de la teoría celular", "Todo ser vivo está hecho de células; la célula es la unidad funcional; toda célula viene de otra."],
+    ].map(([frente, reverso]) => ({ id: uid(), frente, reverso, box: 0 })) }],
+  };
+}
+
+/* ---------- state ---------- */
+const COLORS = ["#2E3BB5", "#2E9E6B", "#C2552E", "#8A3FB8", "#B8862E", "#2E86B8", "#B82E6E"];
+const state = { subjects: [], view: "home", subjectId: null, tab: "material", gen: null, play: null, pasteOpen: false, busyFiles: 0, fileErrors: [] };
+const cur = () => state.subjects.find((s) => s.id === state.subjectId);
+async function save(sub) { await DB.putSubject(sub); }
+function go(view, extra = {}) { Object.assign(state, { view }, extra); render(); window.scrollTo({ top: 0 }); }
+
+/* ---------- views ---------- */
+function render() {
+  const app = $("#app"); app.replaceChildren();
+  if (state.view === "home") app.append(...viewHome());
+  else if (state.view === "subject" && cur()) app.append(...viewSubject());
+  else if (state.view === "quiz" && cur()) app.append(...viewQuiz());
+  else if (state.view === "deck" && cur()) app.append(...viewDeck());
+  else if (state.view === "guide" && cur()) app.append(...viewGuide());
+  else { state.view = "home"; app.append(...viewHome()); }
+}
+
+function viewHome() {
+  const out = [];
+  out.push(h("section", { class: "hero" },
+    h("h1", {}, "Sube tus apuntes, ", h("span", { class: "mark" }, "estudia mejor")),
+    h("p", {}, "Crea una materia, sube tus PDF, diapositivas, documentos o fotos de la clase, y genera una guía de estudio, quizzes y tarjetas de memoria. Todo se guarda solo en este dispositivo.")));
+  if (AI.checked && !AI.ready()) out.push(h("div", { class: "card stack" }, h("h3", { text: "Antes de empezar" }),
+    h("p", { class: "muted", text: IS_STANDALONE ? "Para crear guías, quizzes y tarjetas, la app necesita una clave de IA. Si alguien te compartió un enlace de configuración, ábrelo y listo. Si no, agrégala en Ajustes." : "Elige cómo conectar la IA en Ajustes." }),
+    h("div", {}, h("button", { class: "btn primary", type: "button", text: "Abrir ajustes", onclick: openSettings }))));
+  if (!DB.ok) out.push(h("div", { class: "notice" }, "Este navegador no permite guardar datos aquí (¿modo privado?). Puedes usar la app, pero se perderá todo al cerrar la página."));
+  const grid = h("div", { class: "subjects" });
+  for (const s of [...state.subjects].sort((a, b) => b.createdAt - a.createdAt)) {
+    grid.append(h("button", { class: "card subject", type: "button", style: `--sc:${s.color}`, onclick: () => go("subject", { subjectId: s.id, tab: "material", gen: null }) },
+      h("div", { class: "row" }, h("h3", { text: s.name }), s.example ? h("span", { class: "badge", text: "Ejemplo" }) : null),
+      h("div", { class: "counts" },
+        [[s.materials.length, "archivo", "archivos"], [s.guides.length, "guía", "guías"], [s.quizzes.length, "quiz", "quizzes"], [s.decks.reduce((n, d) => n + d.cards.length, 0), "tarjeta", "tarjetas"]]
+          .map(([n, a, b]) => h("span", {}, h("b", { text: n }), " " + (n === 1 ? a : b))))));
+  }
+  const nameIn = h("input", { type: "text", id: "new-subject-name", placeholder: "Ej.: Anatomía II, Cálculo, Historia del arte", maxlength: "80", "aria-label": "Nombre de la materia" });
+  const create = async () => {
+    const name = nameIn.value.trim(); if (!name) { nameIn.focus(); return; }
+    const s = { id: uid(), name, color: COLORS[state.subjects.length % COLORS.length], createdAt: Date.now(), materials: [], guides: [], quizzes: [], decks: [] };
+    state.subjects.push(s); await save(s); go("subject", { subjectId: s.id, tab: "material", gen: null });
+  };
+  nameIn.addEventListener("keydown", (e) => { if (e.key === "Enter") create(); });
+  grid.append(h("div", { class: "card new-subject" }, h("h3", { text: "Nueva materia" }), nameIn, h("button", { class: "btn primary", type: "button", onclick: create, text: "Crear materia" })));
+  out.push(h("section", { class: "stack" }, h("h2", { text: "Mis materias" }), grid));
+  return out;
+}
+
+function tabsBar(s) {
+  const tabs = [["material", "Material", s.materials.length], ["guides", "Guías", s.guides.length], ["quizzes", "Quizzes", s.quizzes.length], ["decks", "Tarjetas", s.decks.length]];
+  return h("div", { class: "tabs", role: "tablist" }, tabs.map(([id, label, n]) =>
+    h("button", { class: "tab", role: "tab", type: "button", "aria-selected": String(state.tab === id), onclick: () => { state.tab = id; render(); } }, label, h("span", { class: "n muted", text: n }))));
+}
+
+function viewSubject() {
+  const s = cur(); const out = [];
+  out.push(h("div", { class: "row" }, h("button", { class: "btn ghost small", type: "button", onclick: () => go("home", { gen: null }), text: "← Materias" })));
+  const head = h("div", { class: "row", style: "justify-content:space-between" },
+    h("div", { class: "stack", style: "gap:4px" }, h("span", { class: "eyebrow", text: "Materia" }), h("h1", { text: s.name })),
+    h("div", { class: "row" },
+      h("button", { class: "btn small", type: "button", text: "Renombrar", onclick: () => renameSubject(s) }),
+      confirmBtn("Eliminar materia", async () => { for (const m of s.materials) for (const id of m.imageIds || []) await DB.delBlob(id); await DB.delSubject(s.id); state.subjects = state.subjects.filter((x) => x.id !== s.id); toast("Materia eliminada"); go("home"); })));
+  out.push(head, tabsBar(s));
+  if (state.tab === "material") out.push(...tabMaterial(s));
+  if (state.tab === "guides") out.push(genPanel(s, "guide"), listGuides(s));
+  if (state.tab === "quizzes") out.push(genPanel(s, "quiz"), listQuizzes(s));
+  if (state.tab === "decks") out.push(genPanel(s, "deck"), listDecks(s));
+  return out;
+}
+
+function renameSubject(s) {
+  const dlg = $("#settings"); dlg.replaceChildren();
+  const inp = h("input", { type: "text", id: "rename-input", value: s.name, maxlength: "80" });
+  const ok = async () => { const v = inp.value.trim(); if (!v) return; s.name = v; await save(s); dlg.close(); render(); };
+  inp.addEventListener("keydown", (e) => { if (e.key === "Enter") ok(); });
+  dlg.append(h("div", { class: "inner" }, h("h2", { text: "Renombrar materia" }), h("label", { class: "field" }, "Nombre", inp),
+    h("div", { class: "row", style: "justify-content:flex-end" }, h("button", { class: "btn", type: "button", text: "Cancelar", onclick: () => dlg.close() }), h("button", { class: "btn primary", type: "button", text: "Guardar", onclick: ok }))));
+  dlg.showModal(); inp.select();
+}
+
+function tabMaterial(s) {
+  const out = [];
+  const input = h("input", { type: "file", id: "file-input", multiple: true, accept: ".pdf,.docx,.pptx,.txt,.md,.csv,image/*" });
+  const drop = h("label", { class: "drop", for: "file-input" },
+    input,
+    h("svg", { width: "34", height: "34", viewBox: "0 0 24 24", "aria-hidden": "true", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" }),
+    h("strong", { text: "Sube archivos de la clase" }),
+    h("span", { class: "muted small-text", text: "PDF, Word (.docx), PowerPoint (.pptx), texto o fotos de tus apuntes. Puedes elegir varios a la vez." }));
+  drop.querySelector("svg").innerHTML = '<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>';
+  input.addEventListener("change", () => { addFiles(s, [...input.files]); input.value = ""; });
+  drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); addFiles(s, [...e.dataTransfer.files]); });
+  out.push(drop);
+  if (state.busyFiles) out.push(h("div", { class: "working card" }, h("div", { class: "spin" }), h("span", { text: `Leyendo ${plural(state.busyFiles, "archivo", "archivos")}…` })));
+  for (const err of state.fileErrors) out.push(h("div", { class: "notice err", text: err }));
+
+  // paste text
+  const pName = h("input", { type: "text", id: "paste-name", placeholder: "Ej.: Notas de la clase del martes" });
+  const pText = h("textarea", { id: "paste-text", placeholder: "Pega aquí texto de tus apuntes, un artículo o lo que dictó la profe…" });
+  const details = h("details", { class: "card" }, h("summary", { style: "cursor:pointer;font-weight:700;min-height:28px" }, "Pegar texto"),
+    h("div", { class: "stack", style: "margin-top:12px" }, h("label", { class: "field" }, "Nombre", pName), h("label", { class: "field" }, "Texto", pText),
+      h("button", { class: "btn primary", type: "button", text: "Agregar texto", onclick: async () => {
+        const t = pText.value.trim(); if (!t) { pText.focus(); return; }
+        s.materials.push({ id: uid(), name: pName.value.trim() || "Texto pegado", kind: "text", text: t, include: true, addedAt: Date.now() });
+        await save(s); state.pasteOpen = false; toast("Texto agregado"); render();
+      } })));
+  if (state.pasteOpen) details.open = true;
+  details.addEventListener("toggle", () => { state.pasteOpen = details.open; });
+  out.push(details);
+
+  // list
+  const list = h("div", { class: "card" });
+  if (!s.materials.length) list.append(h("div", { class: "empty" }, h("strong", { text: "Aún no hay material" }), h("span", { text: "Sube archivos o pega texto para empezar." })));
+  else {
+    list.append(h("div", { class: "row", style: "justify-content:space-between;margin-bottom:4px" }, h("h3", { text: "Material de la materia" }), h("span", { class: "muted small-text", text: "Marca lo que quieres usar" })));
+    for (const m of s.materials) {
+      const cb = h("input", { type: "checkbox", id: "inc-" + m.id, checked: m.include, "aria-label": "Usar " + m.name });
+      cb.addEventListener("change", async () => { m.include = cb.checked; await save(s); });
+      const ext = m.kind === "images" ? "IMG" : (m.name.split(".").pop() || "TXT").slice(0, 4).toUpperCase();
+      list.append(h("div", { class: "mat" }, cb, h("div", { class: "kind", text: ext }),
+        h("div", { class: "info" }, h("label", { class: "name", for: "inc-" + m.id, text: m.name }),
+          h("div", { class: "muted small-text", text: m.kind === "images" ? `${plural(m.imageIds.length, "imagen", "imágenes")} · ${fmtDate(m.addedAt)}` : `${m.text.length.toLocaleString("es")} caracteres · ${fmtDate(m.addedAt)}` }),
+          m.note ? h("div", { class: "muted small-text", text: m.note }) : null),
+        confirmBtn("Quitar", async () => { for (const id of m.imageIds || []) await DB.delBlob(id); s.materials = s.materials.filter((x) => x.id !== m.id); await save(s); render(); })));
+    }
+  }
+  out.push(list);
+  if (s.materials.length) out.push(h("div", { class: "card stack" }, h("h3", { text: "¿Qué quieres crear?" }),
+    h("div", { class: "row" },
+      h("button", { class: "btn primary", type: "button", text: "Guía de estudio", onclick: () => { state.tab = "guides"; render(); } }),
+      h("button", { class: "btn primary", type: "button", text: "Quiz", onclick: () => { state.tab = "quizzes"; render(); } }),
+      h("button", { class: "btn primary", type: "button", text: "Tarjetas", onclick: () => { state.tab = "decks"; render(); } }))));
+  return out;
+}
+
+async function addFiles(s, files) {
+  if (!files.length) return;
+  state.fileErrors = []; state.busyFiles += files.length; render();
+  for (const f of files) {
+    try {
+      const r = await extractFile(f);
+      if (r.kind === "text") {
+        const text = (r.text || "").trim();
+        if (!text) throw new Error(`«${f.name}» no tiene texto legible.`);
+        s.materials.push({ id: uid(), name: f.name, kind: "text", text, include: true, addedAt: Date.now() });
+      } else {
+        const ids = [];
+        for (const b of r.blobs) { const id = uid(); await DB.putBlob(id, b); ids.push(id); }
+        s.materials.push({ id: uid(), name: f.name, kind: "images", imageIds: ids, include: true, addedAt: Date.now(), note: r.note || "" });
+      }
+      await save(s);
+    } catch (e) { state.fileErrors.push(e && e.message ? e.message : `No se pudo leer «${f.name}».`); }
+    state.busyFiles--; if (state.view === "subject") render();
+  }
+  if (!state.fileErrors.length) toast(files.length === 1 ? "Archivo agregado" : `${files.length} archivos agregados`);
+}
+
+function genPanel(s, kind) {
+  const titles = { guide: "Generar guía de estudio", quiz: "Generar quiz", deck: "Generar tarjetas" };
+  const panel = h("section", { class: "card gen" }, h("h2", { text: titles[kind] }));
+  const g = state.gen && state.gen.subjectId === s.id && state.gen.kind === kind ? state.gen : null;
+  if (g && g.running) {
+    panel.append(h("div", { class: "working" }, h("div", { class: "spin" }), h("div", {}, h("strong", { text: "Preparando tu material…" }), h("div", { class: "muted small-text", text: "Suele tardar entre 20 segundos y 2 minutos, según cuánto material haya." }))),
+      h("div", {}, h("button", { class: "btn", type: "button", text: "Detener", onclick: () => g.ctl.abort() })));
+    return panel;
+  }
+  if (!s.materials.length) { panel.append(h("p", { class: "muted", text: "Primero agrega material en la pestaña Material." }), h("div", {}, h("button", { class: "btn", type: "button", text: "Ir a Material", onclick: () => { state.tab = "material"; render(); } }))); return panel; }
+  const b = materialBundle(s);
+  const opts = h("div", { class: "opts" });
+  let countSel, diffSel;
+  if (kind === "quiz") {
+    countSel = h("select", { id: "q-count" }, [5, 10, 15, 20].map((n) => h("option", { value: n, text: `${n} preguntas` })));
+    countSel.value = String(ls.get("cuaderno-qcount", 10));
+    diffSel = h("select", { id: "q-diff" }, ["fácil", "media", "difícil"].map((d) => h("option", { value: d, text: d[0].toUpperCase() + d.slice(1) })));
+    diffSel.value = ls.get("cuaderno-qdiff", "media");
+    opts.append(h("label", { class: "field" }, "Cantidad", countSel), h("label", { class: "field" }, "Dificultad", diffSel));
+  }
+  if (kind === "deck") {
+    countSel = h("select", { id: "d-count" }, [10, 20, 30, 40].map((n) => h("option", { value: n, text: `${n} tarjetas` })));
+    countSel.value = String(ls.get("cuaderno-dcount", 20));
+    opts.append(h("label", { class: "field" }, "Cantidad", countSel));
+  }
+  const focus = h("input", { type: "text", id: "focus-" + kind, placeholder: "Opcional. Ej.: solo la unidad 2, o los temas del parcial" });
+  opts.append(h("label", { class: "field", style: "grid-column:1/-1" }, "Enfocarse en", focus));
+  panel.append(opts);
+  const used = s.materials.filter((m) => m.include).length;
+  panel.append(h("p", { class: "muted small-text", text: used ? `Se usará ${plural(used, "elemento", "elementos")} del material.` : "No hay material marcado. Marca al menos uno en la pestaña Material." }));
+  if (b.truncated) panel.append(h("div", { class: "notice", text: `Tu material marcado es muy largo (${b.total.toLocaleString("es")} caracteres). Solo se usarán los primeros ${MAX_CHARS.toLocaleString("es")}. Para cubrir todo, desmarca algunos archivos y genera por partes.` }));
+  const maxImg = AI.maxImages();
+  if (b.imageIds.length && AI.ready() && maxImg === 0) panel.append(h("div", { class: "notice", text: "El motor actual no puede leer imágenes en esta vista; solo se usará el texto." }));
+  else if (b.imageIds.length > maxImg && maxImg > 0) panel.append(h("div", { class: "notice", text: `Hay ${b.imageIds.length} imágenes marcadas; se usarán las primeras ${maxImg}.` }));
+  if (g && g.error) panel.append(h("div", { class: "notice err", text: g.error }));
+  if (!AI.ready()) panel.append(h("div", { class: "notice" }, "Falta configurar el motor de IA. ", h("button", { class: "btn small", type: "button", text: "Abrir ajustes", onclick: openSettings })));
+  panel.append(h("div", {}, h("button", { class: "btn primary", type: "button", disabled: !used || !AI.ready(), text: kind === "guide" ? "Generar guía" : kind === "quiz" ? "Generar quiz" : "Generar tarjetas",
+    onclick: () => runGen(s, kind, { count: countSel ? Number(countSel.value) : 0, difficulty: diffSel ? diffSel.value : "", focus: focus.value.trim() }) })));
+  return panel;
+}
+
+async function runGen(s, kind, o) {
+  if (kind === "quiz") { ls.set("cuaderno-qcount", o.count); ls.set("cuaderno-qdiff", o.difficulty); }
+  if (kind === "deck") ls.set("cuaderno-dcount", o.count);
+  const ctl = new AbortController();
+  const g = { subjectId: s.id, kind, running: true, ctl, error: "" };
+  state.gen = g; render();
+  try {
+    const b = materialBundle(s);
+    const maxImg = AI.maxImages();
+    const images = [];
+    for (const id of b.imageIds.slice(0, maxImg)) { const blob = await DB.getBlob(id); if (blob) images.push(blob); }
+    if (!b.text && !images.length) throw new Error("No hay texto ni imágenes que el motor actual pueda leer.");
+    const prompt = basePrompt(s, b, o.focus, images.length) + "\n\nTAREA:" + PROMPTS[kind](o);
+    const raw = await AI.json(prompt, images, ctl.signal);
+    const data = validate(kind, raw);
+    const now = Date.now();
+    if (kind === "guide") { const it = { id: uid(), createdAt: now, focus: o.focus, data }; s.guides.unshift(it); await save(s); state.gen = null; go("guide", { play: { id: it.id } }); }
+    if (kind === "quiz") { const it = { id: uid(), createdAt: now, focus: o.focus, difficulty: o.difficulty, attempts: [], data }; s.quizzes.unshift(it); await save(s); state.gen = null; toast(`Quiz listo: ${plural(data.preguntas.length, "pregunta", "preguntas")}`); render(); }
+    if (kind === "deck") { const it = { id: uid(), createdAt: now, focus: o.focus, data: { titulo: data.titulo }, cards: data.tarjetas.map((c) => ({ id: uid(), frente: c.frente, reverso: c.reverso, box: 0 })) }; s.decks.unshift(it); await save(s); state.gen = null; toast(`${plural(it.cards.length, "tarjeta lista", "tarjetas listas")}`); render(); }
+  } catch (e) {
+    g.running = false;
+    g.error = e && e.cancelled ? "" : (e && e.message) || "Algo falló. Intenta de nuevo.";
+    if (state.gen === g) render();
+  }
+}
+
+function itemRow(title, meta, actions) {
+  return h("div", { class: "card item" }, h("div", { class: "info" }, h("div", { class: "title", text: title }), h("div", { class: "muted small-text", text: meta })), h("div", { class: "row" }, actions));
+}
+function listGuides(s) {
+  const box = h("section", { class: "stack" });
+  if (!s.guides.length) return box;
+  box.append(h("h2", { text: "Tus guías" }));
+  for (const gd of s.guides) box.append(itemRow(gd.data.titulo, `${fmtDate(gd.createdAt)} · ${plural(gd.data.temas.length, "tema", "temas")}${gd.focus ? " · " + gd.focus : ""}`,
+    [h("button", { class: "btn primary small", type: "button", text: "Leer", onclick: () => go("guide", { play: { id: gd.id } }) }),
+     confirmBtn("Borrar", async () => { s.guides = s.guides.filter((x) => x.id !== gd.id); await save(s); render(); })]));
+  return box;
+}
+function listQuizzes(s) {
+  const box = h("section", { class: "stack" });
+  if (!s.quizzes.length) return box;
+  box.append(h("h2", { text: "Tus quizzes" }));
+  for (const q of s.quizzes) {
+    const last = q.attempts[q.attempts.length - 1];
+    const best = q.attempts.reduce((m, a) => Math.max(m, Math.round((a.score / a.total) * 100)), -1);
+    box.append(itemRow(q.data.titulo, `${fmtDate(q.createdAt)} · ${plural(q.data.preguntas.length, "pregunta", "preguntas")}${q.difficulty ? " · " + q.difficulty : ""}${last ? ` · mejor: ${best}%` : " · sin hacer"}`,
+      [h("button", { class: "btn primary small", type: "button", text: last ? "Repetir" : "Empezar", onclick: () => startQuiz(q) }),
+       confirmBtn("Borrar", async () => { s.quizzes = s.quizzes.filter((x) => x.id !== q.id); await save(s); render(); })]));
+  }
+  return box;
+}
+function listDecks(s) {
+  const box = h("section", { class: "stack" });
+  if (!s.decks.length) return box;
+  box.append(h("h2", { text: "Tus mazos de tarjetas" }));
+  for (const d of s.decks) {
+    const known = d.cards.filter((c) => c.box >= 2).length;
+    box.append(itemRow(d.data.titulo, `${fmtDate(d.createdAt)} · ${plural(d.cards.length, "tarjeta", "tarjetas")} · dominas ${known}`,
+      [h("button", { class: "btn primary small", type: "button", text: "Repasar", onclick: () => startDeck(d, false) }),
+       d.cards.some((c) => c.box < 2) && known ? h("button", { class: "btn small", type: "button", text: "Solo difíciles", onclick: () => startDeck(d, true) }) : null,
+       confirmBtn("Borrar", async () => { s.decks = s.decks.filter((x) => x.id !== d.id); await save(s); render(); })]));
+  }
+  return box;
+}
+
+/* ---------- guide reader ---------- */
+function guideAsText(d) {
+  const L = [d.titulo, "", d.resumen, ""];
+  d.temas.forEach((t, i) => { L.push(`${i + 1}. ${t.titulo}`, t.explicacion, ...t.puntos_clave.map((p) => "  • " + p)); if (t.ejemplo) L.push("  Ejemplo: " + t.ejemplo); L.push(""); });
+  if (d.glosario.length) { L.push("Glosario"); d.glosario.forEach((g) => L.push(`• ${g.termino}: ${g.definicion}`)); L.push(""); }
+  if (d.preguntas_de_repaso.length) { L.push("Preguntas de repaso"); d.preguntas_de_repaso.forEach((p) => L.push("• " + p)); L.push(""); }
+  if (d.consejos.length) { L.push("Consejos"); d.consejos.forEach((p) => L.push("• " + p)); }
+  return L.join("\n");
+}
+function viewGuide() {
+  const s = cur(); const gd = s.guides.find((x) => x.id === state.play.id);
+  if (!gd) { state.view = "subject"; return viewSubject(); }
+  const d = gd.data;
+  const back = () => go("subject", { tab: "guides" });
+  const copy = h("button", { class: "btn small", type: "button", text: "Copiar como texto" });
+  copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(guideAsText(d)); toast("Guía copiada"); } catch { toast("No se pudo copiar en este navegador"); } });
+  const art = h("article", { class: "card guide" },
+    h("header", { class: "stack", style: "gap:8px" }, h("span", { class: "eyebrow", text: s.name }), h("h1", {}, h("span", { class: "mark", text: d.titulo })), d.resumen ? h("p", { text: d.resumen }) : null),
+    d.temas.map((t, i) => h("section", {},
+      h("h2", {}, h("span", { class: "topic-n", text: String(i + 1).padStart(2, "0") }), t.titulo),
+      t.explicacion ? h("p", { text: t.explicacion }) : null,
+      t.puntos_clave.length ? h("ul", {}, t.puntos_clave.map((p) => h("li", { text: p }))) : null,
+      t.ejemplo ? h("div", { class: "example" }, h("strong", { text: "Ejemplo: " }), t.ejemplo) : null)),
+    d.glosario.length ? h("section", {}, h("h2", { text: "Glosario" }), h("dl", { class: "glossary" }, d.glosario.map((g) => h("div", {}, h("dt", { text: g.termino }), h("dd", { text: g.definicion }))))) : null,
+    d.preguntas_de_repaso.length ? h("section", {}, h("h2", { text: "Preguntas de repaso" }), h("ol", {}, d.preguntas_de_repaso.map((p) => h("li", { text: p })))) : null,
+    d.consejos.length ? h("section", {}, h("h2", { text: "Consejos para estudiar" }), h("ul", {}, d.consejos.map((p) => h("li", { text: p })))) : null);
+  return [h("div", { class: "row", style: "justify-content:space-between" }, h("button", { class: "btn ghost small", type: "button", text: "← " + s.name, onclick: back }), copy), art];
+}
+
+/* ---------- quiz player ---------- */
+function shuffle(a) { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+function startQuiz(q) { go("quiz", { play: { id: q.id, order: shuffle(q.data.preguntas.map((_, i) => i)), idx: 0, picked: null, answers: [], done: false } }); }
+function viewQuiz() {
+  const s = cur(); const q = s.quizzes.find((x) => x.id === state.play.id); const p = state.play;
+  if (!q) { state.view = "subject"; return viewSubject(); }
+  const back = h("button", { class: "btn ghost small", type: "button", text: "← Salir del quiz", onclick: () => go("subject", { tab: "quizzes" }) });
+  const total = p.order.length;
+  if (p.done) {
+    const score = p.answers.filter((a) => a.ok).length; const pct = Math.round((score / total) * 100);
+    const msg = pct === 100 ? "¡Perfecto! Lo dominas." : pct >= 80 ? "¡Muy bien! Ya casi." : pct >= 60 ? "Vas bien. Repasa las que fallaste." : "Hay que repasar un poco más. ¡Tú puedes!";
+    const wrong = p.answers.filter((a) => !a.ok);
+    return [h("div", { class: "row" }, back),
+      h("section", { class: "card stack", style: "justify-items:start" }, h("span", { class: "eyebrow", text: q.data.titulo }), h("div", { class: "score", text: `${score}/${total}` }), h("p", { text: `${pct}% · ${msg}` }),
+        h("div", { class: "row" }, h("button", { class: "btn primary", type: "button", text: "Repetir quiz", onclick: () => startQuiz(q) }), h("button", { class: "btn", type: "button", text: "Volver a la materia", onclick: () => go("subject", { tab: "quizzes" }) }))),
+      wrong.length ? h("section", { class: "stack" }, h("h2", { text: "Para repasar" }), wrong.map((a) => { const qq = q.data.preguntas[a.qi]; return h("div", { class: "card stack" },
+        h("strong", { text: qq.pregunta }),
+        h("div", { class: "small-text" }, h("span", { class: "muted", text: "Respondiste: " }), qq.opciones[a.picked]),
+        h("div", { class: "small-text" }, h("span", { class: "muted", text: "Correcta: " }), h("strong", { text: qq.opciones[qq.correcta] })),
+        qq.explicacion ? h("div", { class: "explain small-text", text: qq.explicacion }) : null); })) : null];
+  }
+  const qi = p.order[p.idx]; const qq = q.data.preguntas[qi];
+  const answered = p.picked != null;
+  const opts = qq.opciones.map((o, i) => {
+    let cls = "opt"; if (answered && i === qq.correcta) cls += " right"; else if (answered && i === p.picked) cls += " wrong";
+    return h("button", { class: cls, type: "button", disabled: answered, onclick: () => pick(i) }, h("span", { class: "letter", text: "ABCDEFGH"[i] || "•" }), h("span", { text: o }));
+  });
+  function pick(i) { if (p.picked != null) return; p.picked = i; p.answers.push({ qi, picked: i, ok: i === qq.correcta }); render(); }
+  async function next() {
+    if (p.idx + 1 < total) { p.idx++; p.picked = null; render(); window.scrollTo({ top: 0 }); return; }
+    p.done = true; q.attempts.push({ date: Date.now(), score: p.answers.filter((a) => a.ok).length, total }); await save(s); render(); window.scrollTo({ top: 0 });
+  }
+  return [h("div", { class: "row", style: "justify-content:space-between" }, back, h("span", { class: "muted small-text", text: `Pregunta ${p.idx + 1} de ${total}` })),
+    h("div", { class: "progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(total), "aria-valuenow": String(p.idx + (answered ? 1 : 0)) }, h("div", { style: `width:${((p.idx + (answered ? 1 : 0)) / total) * 100}%` })),
+    h("section", { class: "card stack" }, h("p", { class: "q", text: qq.pregunta }), h("div", { class: "stack", style: "gap:8px" }, opts),
+      answered ? h("div", { class: "explain" }, h("strong", { text: p.picked === qq.correcta ? "¡Correcto! " : "Incorrecto. " }), qq.explicacion || "") : null,
+      answered ? h("div", {}, h("button", { class: "btn primary", type: "button", text: p.idx + 1 < total ? "Siguiente" : "Ver resultado", onclick: next })) : null)];
+}
+
+/* ---------- flashcards ---------- */
+function startDeck(d, hardOnly) {
+  const pool = d.cards.filter((c) => !hardOnly || c.box < 2);
+  go("deck", { play: { id: d.id, queue: shuffle(pool.map((c) => c.id)), flipped: false, seen: 0, total: pool.length, again: 0 } });
+}
+function viewDeck() {
+  const s = cur(); const d = s.decks.find((x) => x.id === state.play.id); const p = state.play;
+  if (!d) { state.view = "subject"; return viewSubject(); }
+  const back = h("button", { class: "btn ghost small", type: "button", text: "← Salir", onclick: () => go("subject", { tab: "decks" }) });
+  const boxes = [0, 1, 2, 3].map((b) => d.cards.filter((c) => Math.min(c.box, 3) === b).length);
+  const boxRow = h("div", { class: "boxes" }, h("span", { text: `Nuevas/por aprender: ${boxes[0]}` }), h("span", { text: "·" }), h("span", { text: `En camino: ${boxes[1]}` }), h("span", { text: "·" }), h("span", { text: `Dominadas: ${boxes[2] + boxes[3]}` }));
+  if (!p.queue.length) {
+    return [h("div", { class: "row" }, back), h("section", { class: "card stack", style: "justify-items:start" }, h("span", { class: "eyebrow", text: d.data.titulo }), h("h2", { text: "¡Terminaste el repaso!" }),
+      h("p", { class: "muted", text: p.again ? `Repetiste ${plural(p.again, "tarjeta", "tarjetas")} que te costaron. Vuelve mañana para afianzarlas.` : "Te las sabías todas. ¡Excelente!" }), boxRow,
+      h("div", { class: "row" }, h("button", { class: "btn primary", type: "button", text: "Repasar otra vez", onclick: () => startDeck(d, false) }), h("button", { class: "btn", type: "button", text: "Volver a la materia", onclick: () => go("subject", { tab: "decks" }) })))];
+  }
+  const card = d.cards.find((c) => c.id === p.queue[0]);
+  const flash = h("button", { class: "flash" + (p.flipped ? " flipped" : ""), type: "button", "aria-label": p.flipped ? "Respuesta. Toca para ver la pregunta" : "Pregunta. Toca para ver la respuesta" },
+    h("div", { class: "face" }, h("span", { class: "eyebrow tag", text: "Pregunta" }), h("div", { class: "txt", text: card.frente })),
+    h("div", { class: "face back" }, h("span", { class: "eyebrow tag", text: "Respuesta" }), h("div", { class: "txt", text: card.reverso })));
+  const fit = () => { const faces = flash.querySelectorAll(".face .txt"); let m = 220; faces.forEach((f) => { m = Math.max(m, f.scrollHeight + 70); }); flash.style.minHeight = m + "px"; };
+  requestAnimationFrame(fit);
+  flash.addEventListener("click", () => { p.flipped = !p.flipped; flash.classList.toggle("flipped", p.flipped); renderActions(); });
+  const actions = h("div", { class: "row", style: "justify-content:center" });
+  async function grade(ok) {
+    p.queue.shift(); p.seen++;
+    if (ok) card.box = Math.min(card.box + 1, 3);
+    else { card.box = 0; p.again++; p.queue.splice(Math.min(p.queue.length, 3), 0, card.id); }
+    p.flipped = false; await save(s); render();
+  }
+  function renderActions() {
+    actions.replaceChildren(...(p.flipped
+      ? [h("button", { class: "btn", type: "button", text: "Otra vez", onclick: () => grade(false) }), h("button", { class: "btn primary", type: "button", text: "Me la sé", onclick: () => grade(true) })]
+      : [h("button", { class: "btn primary", type: "button", text: "Ver respuesta", onclick: () => flash.click() })]));
+  }
+  renderActions();
+  return [h("div", { class: "row", style: "justify-content:space-between" }, back, h("span", { class: "muted small-text", text: `Quedan ${p.queue.length}` })),
+    h("div", { class: "progress" }, h("div", { style: `width:${Math.min(100, (p.seen / Math.max(1, p.total + p.again)) * 100)}%` })),
+    h("div", { class: "flash-wrap" }, flash), actions, h("p", { class: "muted small-text", style: "text-align:center", text: "Toca la tarjeta para voltearla. Teclado: espacio voltea, 1 = otra vez, 2 = me la sé." }), boxRow];
+}
+document.addEventListener("keydown", (e) => {
+  if (state.view !== "deck" || $("#settings").open || /INPUT|TEXTAREA|SELECT/.test(document.activeElement && document.activeElement.tagName)) return;
+  const flash = $(".flash"); if (!flash) return;
+  if (e.key === " ") { e.preventDefault(); flash.click(); }
+  else if (state.play.flipped && (e.key === "1" || e.key === "2")) { const btns = document.querySelectorAll(".row .btn"); const want = e.key === "1" ? "Otra vez" : "Me la sé"; btns.forEach((b) => { if (b.textContent === want) b.click(); }); }
+});
+
+/* ---------- settings ---------- */
+function updateEngineChip() {
+  const chip = $("#engine-chip"); $("#engine-label").textContent = AI.label();
+  chip.classList.toggle("on", AI.checked && AI.ready()); chip.classList.toggle("off", AI.checked && !AI.ready());
+}
+function openSettings() {
+  const dlg = $("#settings"); dlg.replaceChildren();
+  const radio = (val, title, desc, disabled) => {
+    const inp = h("input", { type: "radio", name: "provider", value: val, checked: settings.provider === val, disabled });
+    inp.addEventListener("change", () => { settings.provider = val; saveSettings(); updateEngineChip(); openSettings(); });
+    return h("label", { class: "radio" + (disabled ? " disabled" : "") }, inp, h("div", { class: "stack", style: "gap:2px" }, h("strong", { text: title }), h("span", { class: "muted small-text", text: desc })));
+  };
+  const body = h("div", { class: "inner" }, h("h2", { text: "Motor de IA" }),
+    h("p", { class: "muted small-text", text: "Elige quién lee tu material y crea las guías, quizzes y tarjetas." }),
+    radio("claude", "Claude con tu cuenta", AI.sample ? "Usa tu cuenta de claude.ai (sirve la gratuita). Cada generación cuenta para tu límite de mensajes." : "Disponible solo si abres esta app desde su enlace de claude.ai con tu cuenta iniciada.", !AI.sample),
+    radio("gemini", "Google Gemini con tu clave", "Necesitas una clave de Google AI Studio. Google ofrece un nivel gratuito con límites.", false),
+    radio("anthropic", "API de Claude con tu clave", "De pago por uso (centavos por generación). Clave de console.anthropic.com.", false));
+  if (settings.provider === "gemini") {
+    const k = h("input", { type: "password", id: "gemini-key", value: settings.geminiKey, placeholder: "Pega tu clave aquí", autocomplete: "off" });
+    const m = h("input", { type: "text", id: "gemini-model", value: settings.geminiModel });
+    k.addEventListener("input", () => { settings.geminiKey = k.value.trim(); saveSettings(); updateEngineChip(); });
+    m.addEventListener("input", () => { settings.geminiModel = m.value.trim() || "gemini-flash-latest"; saveSettings(); });
+    body.append(h("label", { class: "field" }, "Clave de Gemini", h("span", { class: "hint" }, "Créala gratis en aistudio.google.com → «Get API key». Se guarda solo en este dispositivo."), k),
+      h("label", { class: "field" }, "Modelo", h("span", { class: "hint", text: "Déjalo así salvo que sepas cuál usar." }), m));
+  }
+  if (settings.provider === "anthropic") {
+    const k = h("input", { type: "password", id: "anthropic-key", value: settings.anthropicKey, placeholder: "sk-ant-…", autocomplete: "off" });
+    const m = h("input", { type: "text", id: "anthropic-model", value: settings.anthropicModel });
+    k.addEventListener("input", () => { settings.anthropicKey = k.value.trim(); saveSettings(); updateEngineChip(); });
+    m.addEventListener("input", () => { settings.anthropicModel = m.value.trim() || "claude-opus-5-5"; saveSettings(); });
+    body.append(h("label", { class: "field" }, "Clave de la API de Claude", h("span", { class: "hint", text: "Se guarda solo en este dispositivo y se envía directo a Anthropic." }), k),
+      h("label", { class: "field" }, "Modelo", h("span", { class: "hint", text: "claude-opus-5-5 da la mejor calidad; claude-haiku-5-5 es el más barato." }), m));
+  }
+  const shareKey = settings.provider === "gemini" ? settings.geminiKey : settings.provider === "anthropic" ? settings.anthropicKey : "";
+  if (IS_STANDALONE && shareKey && /^https?:$/.test(location.protocol)) {
+    const link = location.origin + location.pathname + "#" + (settings.provider === "gemini" ? "gemini" : "claude") + "=" + shareKey;
+    const out = h("input", { type: "text", id: "share-link", value: link, readonly: true });
+    const copyBtn = h("button", { class: "btn", type: "button", text: "Copiar enlace de configuración" });
+    copyBtn.addEventListener("click", async () => { try { await navigator.clipboard.writeText(link); toast("Enlace copiado"); } catch { out.select(); toast("Selecciona el enlace y cópialo"); } });
+    body.append(h("hr", { style: "border:0;border-top:1px solid var(--line);margin:4px 0" }), h("h3", { text: "Compartir la app ya configurada" }),
+      h("p", { class: "muted small-text", text: "Quien abra este enlace tendrá la app lista para usar con tu clave, sin configurar nada. Mándalo solo a personas de confianza: cualquiera con el enlace puede usar tu clave." }),
+      out, h("div", {}, copyBtn));
+  }
+  body.append(h("hr", { style: "border:0;border-top:1px solid var(--line);margin:4px 0" }), h("h3", { text: "Tus datos" }),
+    h("p", { class: "muted small-text", text: DB.ok ? "Tus materias, archivos y resultados se guardan solo en este navegador. Nadie más los ve." : "Este navegador no permite guardar: los datos se pierden al cerrar." }),
+    h("div", { class: "row" }, confirmBtn("Borrar todos mis datos", async () => { await DB.clear(); state.subjects = []; ls.set("cuaderno-seeded", true); dlg.close(); toast("Datos borrados"); go("home"); }, "btn danger")),
+    h("div", { class: "row", style: "justify-content:flex-end" }, h("button", { class: "btn primary", type: "button", text: "Listo", onclick: () => { dlg.close(); render(); } })));
+  dlg.append(body);
+  if (!dlg.open) dlg.showModal();
+}
+$("#engine-chip").addEventListener("click", openSettings);
+$("#brand").addEventListener("click", () => go("home", { gen: null }));
+$("#settings").addEventListener("close", () => { updateEngineChip(); render(); });
+
+/* ---------- boot ---------- */
+async function boot() {
+  render(); updateEngineChip();
+  AI.init().then(() => { render(); if (importedFromLink) toast("¡Listo! La app ya está configurada"); });
+  await DB.open();
+  state.subjects = await DB.allSubjects();
+  if (!state.subjects.length && !ls.get("cuaderno-seeded", false)) { const ex = exampleSubject(); state.subjects.push(ex); await save(ex); ls.set("cuaderno-seeded", true); }
+  render();
+}
+boot();
+})();
+</script>
+</body></html>
