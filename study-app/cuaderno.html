@@ -280,6 +280,18 @@ const MAX_CHARS = 150000;
 const CLAUDE_FALLBACK_MODELS = ["claude-opus-5-5", "claude-opus-5", "claude-fable-5-2", "claude-fable-5-1", "claude-sonnet-5-5"];
 const settings = Object.assign({ provider: "", geminiKey: "", geminiModel: "gemini-flash-latest", anthropicKey: "", anthropicModel: "claude-opus-5-5" }, ls.get("cuaderno-settings", {}));
 const saveSettings = () => ls.set("cuaderno-settings", settings);
+const IS_STANDALONE = !(window.claude && typeof window.claude.use === "function");
+// A setup link like  https://…/#gemini=KEY  stores the key on this device and is then removed from the address bar.
+let importedFromLink = false;
+try {
+  const m = location.hash.match(/^#(gemini|claude)=([A-Za-z0-9_.\-]{20,200})$/);
+  if (m && IS_STANDALONE) {
+    if (m[1] === "gemini") { settings.geminiKey = m[2]; settings.provider = "gemini"; }
+    else { settings.anthropicKey = m[2]; settings.provider = "anthropic"; }
+    saveSettings(); importedFromLink = true;
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+} catch {}
 
 const SAMPLE_ERRORS = {
   not_granted: "No se dio permiso para usar Claude en esta página. Puedes usar una clave propia en Ajustes.",
@@ -352,19 +364,38 @@ const AI = {
   },
 };
 
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
+// When the configured model is gone (Google retires model names), pick the newest "flash" model the key can use.
+async function pickGeminiModel(signal) {
+  try {
+    const r = await fetch(`${GEMINI_BASE}/models?pageSize=200`, { headers: { "x-goog-api-key": settings.geminiKey.trim() }, signal });
+    const d = await r.json();
+    const names = (d.models || []).filter((m) => (m.supportedGenerationMethods || []).includes("generateContent")).map((m) => String(m.name).replace(/^models\//, ""));
+    const score = (n) => (/flash/.test(n) ? 10 : /pro/.test(n) ? 5 : 0) - (/lite|image|tts|live|audio|embed|exp|thinking|robotics|computer/.test(n) ? 20 : 0) - (/preview/.test(n) ? 3 : 0);
+    const ver = (n) => parseFloat((n.match(/(\d+(?:\.\d+)?)/) || [0, 0])[1]);
+    names.sort((a, b) => score(b) - score(a) || ver(b) - ver(a));
+    return names.length && score(names[0]) > 0 ? names[0] : "";
+  } catch (e) { if (e && e.name === "AbortError") throw e; return ""; }
+}
 async function callGemini(prompt, images, signal) {
   const parts = [];
   for (const b of images) parts.push({ inline_data: { mime_type: b.type || "image/jpeg", data: await blobToBase64(b) } });
   parts.push({ text: prompt });
-  const model = (settings.geminiModel || "gemini-flash-latest").trim();
-  let res;
-  try {
-    res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
-      method: "POST", signal,
-      headers: { "content-type": "application/json", "x-goog-api-key": settings.geminiKey.trim() },
-      body: JSON.stringify({ contents: [{ role: "user", parts }], generationConfig: { responseMimeType: "application/json" } }),
-    });
-  } catch (e) { if (e.name === "AbortError") throw e; throw new Error("No hay conexión con Gemini. Revisa tu internet."); }
+  let model = (settings.geminiModel || "gemini-flash-latest").trim();
+  const send = async (mdl) => {
+    try {
+      return await fetch(`${GEMINI_BASE}/models/${encodeURIComponent(mdl)}:generateContent`, {
+        method: "POST", signal,
+        headers: { "content-type": "application/json", "x-goog-api-key": settings.geminiKey.trim() },
+        body: JSON.stringify({ contents: [{ role: "user", parts }], generationConfig: { responseMimeType: "application/json" } }),
+      });
+    } catch (e) { if (e.name === "AbortError") throw e; throw new Error("No hay conexión con Gemini. Revisa tu internet."); }
+  };
+  let res = await send(model);
+  if (res.status === 404) {
+    const alt = await pickGeminiModel(signal);
+    if (alt && alt !== model) { model = alt; settings.geminiModel = alt; saveSettings(); res = await send(model); }
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     const msg = (data.error && data.error.message) || res.statusText;
@@ -603,6 +634,9 @@ function viewHome() {
   out.push(h("section", { class: "hero" },
     h("h1", {}, "Sube tus apuntes, ", h("span", { class: "mark" }, "estudia mejor")),
     h("p", {}, "Crea una materia, sube tus PDF, diapositivas, documentos o fotos de la clase, y genera una guía de estudio, quizzes y tarjetas de memoria. Todo se guarda solo en este dispositivo.")));
+  if (AI.checked && !AI.ready()) out.push(h("div", { class: "card stack" }, h("h3", { text: "Antes de empezar" }),
+    h("p", { class: "muted", text: IS_STANDALONE ? "Para crear guías, quizzes y tarjetas, la app necesita una clave de IA. Si alguien te compartió un enlace de configuración, ábrelo y listo. Si no, agrégala en Ajustes." : "Elige cómo conectar la IA en Ajustes." }),
+    h("div", {}, h("button", { class: "btn primary", type: "button", text: "Abrir ajustes", onclick: openSettings }))));
   if (!DB.ok) out.push(h("div", { class: "notice" }, "Este navegador no permite guardar datos aquí (¿modo privado?). Puedes usar la app, pero se perderá todo al cerrar la página."));
   const grid = h("div", { class: "subjects" });
   for (const s of [...state.subjects].sort((a, b) => b.createdAt - a.createdAt)) {
@@ -988,6 +1022,16 @@ function openSettings() {
     body.append(h("label", { class: "field" }, "Clave de la API de Claude", h("span", { class: "hint", text: "Se guarda solo en este dispositivo y se envía directo a Anthropic." }), k),
       h("label", { class: "field" }, "Modelo", h("span", { class: "hint", text: "claude-opus-5-5 da la mejor calidad; claude-haiku-5-5 es el más barato." }), m));
   }
+  const shareKey = settings.provider === "gemini" ? settings.geminiKey : settings.provider === "anthropic" ? settings.anthropicKey : "";
+  if (IS_STANDALONE && shareKey && /^https?:$/.test(location.protocol)) {
+    const link = location.origin + location.pathname + "#" + (settings.provider === "gemini" ? "gemini" : "claude") + "=" + shareKey;
+    const out = h("input", { type: "text", id: "share-link", value: link, readonly: true });
+    const copyBtn = h("button", { class: "btn", type: "button", text: "Copiar enlace de configuración" });
+    copyBtn.addEventListener("click", async () => { try { await navigator.clipboard.writeText(link); toast("Enlace copiado"); } catch { out.select(); toast("Selecciona el enlace y cópialo"); } });
+    body.append(h("hr", { style: "border:0;border-top:1px solid var(--line);margin:4px 0" }), h("h3", { text: "Compartir la app ya configurada" }),
+      h("p", { class: "muted small-text", text: "Quien abra este enlace tendrá la app lista para usar con tu clave, sin configurar nada. Mándalo solo a personas de confianza: cualquiera con el enlace puede usar tu clave." }),
+      out, h("div", {}, copyBtn));
+  }
   body.append(h("hr", { style: "border:0;border-top:1px solid var(--line);margin:4px 0" }), h("h3", { text: "Tus datos" }),
     h("p", { class: "muted small-text", text: DB.ok ? "Tus materias, archivos y resultados se guardan solo en este navegador. Nadie más los ve." : "Este navegador no permite guardar: los datos se pierden al cerrar." }),
     h("div", { class: "row" }, confirmBtn("Borrar todos mis datos", async () => { await DB.clear(); state.subjects = []; ls.set("cuaderno-seeded", true); dlg.close(); toast("Datos borrados"); go("home"); }, "btn danger")),
@@ -1002,7 +1046,7 @@ $("#settings").addEventListener("close", () => { updateEngineChip(); render(); }
 /* ---------- boot ---------- */
 async function boot() {
   render(); updateEngineChip();
-  AI.init().then(() => render());
+  AI.init().then(() => { render(); if (importedFromLink) toast("¡Listo! La app ya está configurada"); });
   await DB.open();
   state.subjects = await DB.allSubjects();
   if (!state.subjects.length && !ls.get("cuaderno-seeded", false)) { const ex = exampleSubject(); state.subjects.push(ex); await save(ex); ls.set("cuaderno-seeded", true); }
