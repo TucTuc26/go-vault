@@ -695,10 +695,9 @@ function tabMaterial(s) {
   const input = h("input", { type: "file", id: "file-input", multiple: true, accept: ".pdf,.docx,.pptx,.txt,.md,.csv,image/*" });
   const drop = h("label", { class: "drop", for: "file-input" },
     input,
-    h("svg", { width: "34", height: "34", viewBox: "0 0 24 24", "aria-hidden": "true", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" }),
+    (() => { const t = document.createElement("template"); t.innerHTML = '<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>'; return t.content.firstChild; })(),
     h("strong", { text: "Sube archivos de la clase" }),
     h("span", { class: "muted small-text", text: "PDF, Word (.docx), PowerPoint (.pptx), texto o fotos de tus apuntes. Puedes elegir varios a la vez." }));
-  drop.querySelector("svg").innerHTML = '<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>';
   input.addEventListener("change", () => { addFiles(s, [...input.files]); input.value = ""; });
   drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
   drop.addEventListener("dragleave", () => drop.classList.remove("over"));
